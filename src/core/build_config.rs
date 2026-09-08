@@ -244,13 +244,19 @@ pub struct WorkspaceMemberConfig {
 }
 
 impl Config {
+    #[allow(dead_code)]
     /// Creates a new Config instance from a TOML file path. If the file does not exist, it creates a default one.
     pub fn new(path: &str) -> Result<Self, ConfigError> {
+        Self::create(path, None)
+    }
+
+    /// Creates a new Config instance with an explicit package name for the default template when creating a new file.
+    pub fn create(path: &str, package_name: Option<&str>) -> Result<Self, ConfigError> {
         let path = PathBuf::from(path);
         let (data, doc) = if path.exists() {
             load_parts(&path)?
         } else {
-            let content = default_toml_text();
+            let content = default_toml_text(package_name);
             let doc: DocumentMut = content.parse().map_err(ConfigError::TomlEdit)?;
             fs::write(&path, doc.to_string())?;
             let data: Value = toml::from_str(&content)?;
@@ -830,10 +836,14 @@ fn load_parts(path: &Path) -> Result<(Value, DocumentMut), ConfigError> {
     Ok((data, doc))
 }
 
-fn default_toml_text() -> String {
-    let name = std::env::current_dir()
-        .ok()
-        .and_then(|p| p.file_name().map(|v| v.to_string_lossy().to_string()))
+fn default_toml_text(package_name: Option<&str>) -> String {
+    let name = package_name
+        .map(|s| s.to_string())
+        .or_else(|| {
+            std::env::current_dir()
+                .ok()
+                .and_then(|p| p.file_name().map(|v| v.to_string_lossy().to_string()))
+        })
         .unwrap_or_else(|| "project".to_string());
     let dcr_version = env!("CARGO_PKG_VERSION");
 
