@@ -1,5 +1,35 @@
 # Changelog
 
+## [v0.9.1] - 2026-08-31 "Системные pkg-config-зависимости / System pkg-config Dependencies"
+
+### RU
+
+**Добавлено:**
+
+- **Зависимости через `pkg-config`** — `fmt = { pkg-config = "fmt" }` или массив имён пакетов (`pkg-config = ["openssl", "libcrypto"]`) подключает системные библиотеки через `.pc`-метаданные.
+- **Поддержка префиксов в `dcr add`** — команды `dcr add fmt pkg-config:fmt` и `dcr add openssl pkg:openssl,libcrypto` добавляют зависимости от системных пакетов в `dcr.toml`.
+- **Полный набор флагов** — DCR собирает и пробрасывает compiler/linker flags (`-I`, `-L`, `-l`, `-pthread` и другие), включая транзитивные зависимости и интеграцию с `dcr gen` / `dcr test`.
+- **Фиксация в `dcr.lock`** — записывается источник `pkg-config+...` и обнаруженная версия пакета.
+- **Отображение в `dcr tree`** — `pkg-config` зависимости наглядно помечаются в дереве зависимостей.
+
+**Исправлено:**
+
+- **Ошибка создания проекта в папках со спецсимволами** — `dcr new` больше не завершается ошибкой `Failed to create dcr.toml`, если родительская директория содержит пробелы или не-ASCII символы.
+
+### EN
+
+**Added:**
+
+- **`pkg-config` dependencies** — `fmt = { pkg-config = "fmt" }` or an array of package names (`pkg-config = ["openssl", "libcrypto"]`) connects system libraries through their `.pc` metadata.
+- **Prefix support in `dcr add`** — `dcr add fmt pkg-config:fmt` and `dcr add openssl pkg:openssl,libcrypto` add system package dependencies to `dcr.toml`.
+- **Complete flag propagation** — compiler/linker flags (`-I`, `-L`, `-l`, `-pthread`, and others) are preserved and passed to builds, `dcr test`, and IDE integrations via `dcr gen`.
+- **Lockfile entries** — `dcr.lock` records the `pkg-config+...` source and detected package version.
+- **`dcr tree` representation** — `pkg-config` dependencies are clearly labeled in the dependency tree.
+
+**Fixed:**
+
+- **Project creation failure in special character directories** — `dcr new` no longer fails with `Failed to create dcr.toml` when invoked inside parent folders with spaces or non-ASCII characters.
+
 ## [v0.9.0] - 2026-08-31 "Полные Path/Git-зависимости и готовые библиотеки / Complete Path/Git Dependencies & Prebuilt Libraries"
 
 ### RU

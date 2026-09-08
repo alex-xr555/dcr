@@ -115,6 +115,19 @@ fn print_deps(
                         format!(" v{}", v)
                     } else if let Some(git) = t.get("git").and_then(|v| v.as_str()) {
                         format!(" ({})", git)
+                    } else if let Some(pkg) = t.get("pkg-config").or_else(|| t.get("pkg_config")) {
+                        if let Some(s) = pkg.as_str() {
+                            format!(" (pkg-config: {})", s)
+                        } else if let Some(arr) = pkg.as_array() {
+                            let names = arr
+                                .iter()
+                                .filter_map(|v| v.as_str())
+                                .collect::<Vec<_>>()
+                                .join(", ");
+                            format!(" (pkg-config: {})", names)
+                        } else {
+                            "".to_string()
+                        }
                     } else {
                         "".to_string()
                     }
