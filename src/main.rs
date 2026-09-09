@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-use crate::utils::log::error;
+use crate::{cli::args::CliMode::New, utils::log::error};
 mod cli;
 mod config;
 mod core;
@@ -27,44 +27,26 @@ mod utils;
 /// appropriate subcommand handler. With fewer than two arguments, shows help and
 /// exits with code 0; otherwise exits with the handler's exit code.
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    let args = cli::args::parse();
+    dbg!(&args);
 
-    if args.len() < 2 {
-        std::process::exit(cli::help::help());
-    }
-
-    let cmd = args[1].as_str();
-    let rest = &args[2..];
-
-    let code = match cmd {
-        "new" => cli::r#new::new(rest),
-        "init" => cli::init::init(rest),
-        "setup" => cli::setup::setup(rest),
-        "add" => cli::add::add(rest),
-        "build" => cli::build::build(rest),
-        "run" => cli::run::run(rest),
-        "tree" => cli::tree::tree(rest),
-        "test" | "tests" => cli::test::test(rest),
-        "fmt" => cli::fmt::fmt(rest),
-        "lint" => cli::lint::lint(rest),
-        "clean" => cli::clean::clean(rest),
-        "gen" => cli::r#gen::r#gen(rest),
-        "--version" => {
-            println!(
-                "dcr {}{} ({})",
-                env!("CARGO_PKG_VERSION"),
-                env!("DCR_GIT_INFO"),
-                env!("DCR_TARGET")
-            );
-            0
-        }
-        "--help" => cli::help::help(),
-        "--update" => cli::flag_update::flag_update(rest),
-        _ => {
-            error("Unknown command or argument");
-            1
-        }
+    let code = match args.mode {
+        New { name, vcs } => cli::new::new(&name, &vcs),
+        _ => todo!("режим не готов"),
     };
 
     std::process::exit(code);
+
+    //     "init" => cli::init::init(rest),
+    //     "setup" => cli::setup::setup(rest),
+    //     "add" => cli::add::add(rest),
+    //     "build" => cli::build::build(rest),
+    //     "run" => cli::run::run(rest),
+    //     "tree" => cli::tree::tree(rest),
+    //     "test" | "tests" => cli::test::test(rest),
+    //     "fmt" => cli::fmt::fmt(rest),
+    //     "lint" => cli::lint::lint(rest),
+    //     "clean" => cli::clean::clean(rest),
+    //     "gen" => cli::r#gen::r#gen(rest),
+    //     "--update" => cli::flag_update::flag_update(rest),
 }
