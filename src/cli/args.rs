@@ -28,8 +28,14 @@ pub enum CliMode {
         #[arg(long, value_enum)]
         vcs: Option<CliVCS>,
     },
-    // /// Initialize the current directory as a project
-    // Init,
+
+    /// Initialize the current directory as a project
+    #[command(long_about = "Initializes the current directory as a DCR project.\n\
+            The directory must be empty.")]
+    Init {
+        #[arg(long, value_enum)]
+        vcs: Option<CliVCS>,
+    },
 }
 
 #[derive(ValueEnum, Debug, Clone)]

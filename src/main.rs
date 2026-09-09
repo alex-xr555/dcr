@@ -14,12 +14,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-use crate::{cli::args::CliMode::New, utils::log::error};
+use crate::utils::log::error;
 mod cli;
 mod config;
 mod core;
 mod platform;
 mod utils;
+
+use crate::cli::args::CliMode::*;
 
 /// Main entry point for DCR, a Cargo-like C/C++ project manager.
 ///
@@ -32,12 +34,12 @@ fn main() {
 
     let code = match args.mode {
         New { name, vcs } => cli::new::new(&name, &vcs),
+        Init { vcs } => cli::init::init(&vcs),
         _ => todo!("режим не готов"),
     };
 
     std::process::exit(code);
 
-    //     "init" => cli::init::init(rest),
     //     "setup" => cli::setup::setup(rest),
     //     "add" => cli::add::add(rest),
     //     "build" => cli::build::build(rest),

@@ -20,17 +20,17 @@
 /// This module declares submodules for all DCR commands.
 pub mod args;
 
-pub mod add;
-pub mod build;
-pub mod clean;
-pub mod flag_update;
-pub mod flags;
-pub mod fmt;
-pub mod r#gen;
+// pub mod add;
+// pub mod build;
+// pub mod clean;
+// pub mod flag_update;
+// pub mod flags;
+// pub mod fmt;
+// pub mod gen;
 pub mod init;
-pub mod lint;
+// pub mod lint;
 pub mod new;
-pub mod run;
-pub mod setup;
-pub mod test;
-pub mod tree;
+// pub mod run;
+// pub mod setup;
+// pub mod test;
+// pub mod tree;
