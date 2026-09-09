@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+use crate::cli::args::CliVCS;
 use crate::config::FILE_MAIN_C;
 use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
@@ -28,41 +29,7 @@ use std::io::Write;
 ///
 /// Verifies that the current directory is empty, sets up the project structure by creating
 /// `dcr.toml` and `src/main.c`, and configures version control (Git) integration if applicable.
-pub fn init(args: &[String]) -> i32 {
-    if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc("    dcr init [--vcs <git|none>]", BOLD_CYAN);
-        println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
-        println!("    Initializes the current directory as a DCR project.");
-        println!("    The directory must be empty.");
-        return 0;
-    }
-
-    // Parse options (--vcs) and collect positional arguments.
-    let mut vcs_str = None;
-    let mut clean_args = Vec::new();
-    let mut iter = args.iter();
-    while let Some(arg) = iter.next() {
-        if arg == "--vcs" {
-            if let Some(val) = iter.next() {
-                vcs_str = Some(val.clone());
-            } else {
-                error("--vcs requires a value");
-                return 1;
-            }
-        } else if let Some(stripped) = arg.strip_prefix("--vcs=") {
-            vcs_str = Some(stripped.to_string());
-        } else {
-            clean_args.push(arg.clone());
-        }
-    }
-
-    if !clean_args.is_empty() {
-        warn("Command does not support additional arguments");
-        return 1;
-    }
-
+pub fn init(vcs: &Option<CliVCS>) -> i32 {
     // Resolve target project name from current directory name and enforce empty directory check.
     let items = check_dir(None).unwrap_or_default();
     let project_name = std::env::current_dir()
@@ -123,20 +90,19 @@ pub fn init(args: &[String]) -> i32 {
     );
 
     // Resolve target VCS provider or detect existing repositories.
-    let mut vcs_kind = VcsKind::Git;
-    if let Some(ref vcs_val) = vcs_str {
-        match VcsKind::parse(vcs_val) {
-            Ok(kind) => vcs_kind = kind,
-            Err(e) => {
-                error(&e);
-                return 1;
+    let vcs_kind = match vcs {
+        Some(CliVCS::Git) => VcsKind::Git,
+        Some(CliVCS::None) => VcsKind::None,
+        None => {
+            if let Ok(cwd) = std::env::current_dir()
+                && crate::core::vcs::find_existing_vcs(&cwd).is_some()
+            {
+                VcsKind::None
+            } else {
+                VcsKind::Git
             }
         }
-    } else if let Ok(cwd_path) = std::env::current_dir()
-        && crate::core::vcs::find_existing_vcs(&cwd_path).is_some()
-    {
-        vcs_kind = VcsKind::None;
-    }
+    };
 
     if vcs_kind == VcsKind::Git {
         if crate::utils::git::is_git_available() {
