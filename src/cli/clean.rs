@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+use crate::cli::args::{CliArgs, CliMode};
 use crate::core::build_config::Config;
 use crate::core::workspace::parse_workspace;
 use crate::utils::build::{default_profile_flags, default_target_triple, parse_version_info};
@@ -34,25 +35,7 @@ use std::path::Path;
 ///
 /// # Returns
 /// Process exit code: `0` on success, `1` on failure.
-pub fn clean(args: &[String]) -> i32 {
-    if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc(
-            "    dcr clean [--debug | --release] [--target <triple>] [--all]",
-            BOLD_CYAN,
-        );
-        println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
-        println!("    Removes build artifacts from the target directory.");
-        println!();
-        printc("OPTIONS:", BOLD_GREEN);
-        println!("    --debug              Clean debug artifacts (default)");
-        println!("    --release            Clean release artifacts");
-        println!("    --target <triple>    Clean artifacts for a specific target");
-        println!("    --all                Clean all workspace members");
-        return 0;
-    }
-
+pub fn clean(args: &CliMode) -> i32 {
     let start_dir = match std::env::current_dir() {
         Ok(dir) => dir,
         Err(_) => {
@@ -68,13 +51,6 @@ pub fn clean(args: &[String]) -> i32 {
         }
         Err(_) => {
             error("Failed to find project root");
-            return 1;
-        }
-    };
-    let flags = match parse_clean_flags(args) {
-        Ok(v) => v,
-        Err(msg) => {
-            error(&msg);
             return 1;
         }
     };
@@ -99,57 +75,21 @@ struct CleanFlags {
     all: bool,
 }
 
-/// Parses CLI arguments into [`CleanFlags`].
-///
-/// Recognizes `--all`, `--target <triple>`, and profile flags such as `--debug`
-/// / `--release` (validated via [`default_profile_flags`]).
-fn parse_clean_flags(args: &[String]) -> Result<CleanFlags, String> {
-    let mut profile: Option<String> = None;
-    let mut target: Option<String> = None;
-    let mut all = false;
-    let mut iter = args.iter();
-    while let Some(arg) = iter.next() {
-        if arg == "--all" {
-            all = true;
-            continue;
-        }
-        if arg == "--target" {
-            if let Some(t) = iter.next() {
-                target = Some(t.clone());
-            } else {
-                return Err("--target requires a value".to_string());
-            }
-            continue;
-        }
-        if arg.starts_with("--") {
-            // Accept only known profile names (e.g. debug/release), not arbitrary flags.
-            let candidate = arg.trim_start_matches("--").to_string();
-            if !default_profile_flags(&candidate).is_empty() {
-                if profile.is_some() {
-                    return Err("Duplicate profile flag".to_string());
-                }
-                profile = Some(candidate);
-                continue;
-            }
-        }
-        return Err("Unknown argument".to_string());
-    }
-    Ok(CleanFlags {
-        profile,
-        target,
-        all,
-    })
-}
-
 /// Cleans the project at `root`, and optionally all workspace members.
 ///
 /// Resolves the effective target triple from flags, `dcr.toml`, or host defaults,
 /// then removes the appropriate `target` subdirectories and custom clean paths.
-fn clean_from_root(root: &Path, flags: &CleanFlags) -> Result<(), String> {
+fn clean_from_args_and_root(
+    root: &Path,
+    release: bool,
+    debug: bool,
+    target: &Option<String>,
+    all: bool,
+) -> Result<(), String> {
     let config = Config::open("./dcr.toml").map_err(|err| err.to_string())?;
 
     // Prefer CLI --target, then build.target from config, then host defaults on Linux/BSD.
-    let target = flags.target.clone().or_else(|| {
+    let target = target.clone().or_else(|| {
         config
             .get("build.target")
             .and_then(|v| v.as_str())
@@ -171,22 +111,18 @@ fn clean_from_root(root: &Path, flags: &CleanFlags) -> Result<(), String> {
         None => None,
     };
 
-    if flags.all
-        && let Some(workspace) = parse_workspace(
-            &config,
-            flags.profile.as_deref().unwrap_or("debug"),
-            target.as_deref(),
-            root,
-        )?
-    {
+    let profile = if release { "release" } else { "debug" };
+
+    if all && let Some(workspace) = parse_workspace(&config, profile, target.as_deref(), root)? {
         for member in &workspace.members {
             let member_target = member.path.join("target");
             if member_target.is_dir() {
-                clean_project_at(&member.path, flags.profile.as_deref(), target.as_deref())?;
+                clean_project_at(&member.path, profile, target.as_deref())?;
             }
         }
     }
-    clean_project_at(root, flags.profile.as_deref(), target.as_deref())
+
+    clean_project_at(root, profile, target.as_deref())
 }
 
 /// Removes build artifacts for a single project directory.

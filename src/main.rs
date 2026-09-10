@@ -32,9 +32,10 @@ fn main() {
     let args = cli::args::parse();
     dbg!(&args);
 
-    let code = match args.mode {
+    let code = match &args.mode {
         New { name, vcs } => cli::new::new(&name, &vcs),
         Init { vcs } => cli::init::init(&vcs),
+        Clean { .. } => cli::clean::clean(&args.mode),
         _ => todo!("режим не готов"),
     };
 
