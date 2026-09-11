@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-pub fn warn(_: &str) {}
-pub fn error(_: &str) {}
-
 use anstyle::{AnsiColor, Style};
 use env_logger::*;
 use log::*;
