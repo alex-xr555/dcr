@@ -112,7 +112,7 @@ pub fn add(args: &[String]) -> i32 {
     let mut config = match Config::open(&root.join("dcr.toml").to_string_lossy()) {
         Ok(cfg) => cfg,
         Err(err) => {
-            error!("{}", &err.to_string());
+            error!("{err}");
             return 1;
         }
     };
