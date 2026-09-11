@@ -15,34 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use anstyle::{AnsiColor, Style};
 use env_logger::*;
 use log::*;
+use owo_colors::OwoColorize;
 use std::io::Write;
 
 // Функция инициализирующая логирование
 pub fn init() {
     Builder::new()
         .filter_level(LevelFilter::Warn)
+        .write_style(WriteStyle::Auto)
         .format(|buf, record| {
-            let color = match record.level() {
-                Level::Error => AnsiColor::Red,
-                Level::Warn => AnsiColor::Yellow,
-                Level::Info => AnsiColor::White,
-                Level::Debug => AnsiColor::Magenta,
-                Level::Trace => AnsiColor::BrightBlack,
+            let colored_lv = match record.level() {
+                Level::Error => record.level().red().to_string(),
+                Level::Warn => record.level().yellow().to_string(),
+                Level::Info => record.level().default_color().to_string(),
+                _ => record.level().purple().italic().to_string(),
             };
-
-            let style = Style::new().fg_color(Some(color.into())).bold();
 
             writeln!(
                 buf,
-                "{style}{}{style:#}: {}",
-                record.level().to_string().to_lowercase(),
+                "{}: {}",
+                colored_lv.to_lowercase().bold(),
                 record.args(),
             )
         })
         .init();
-
-    // env_logger::init(); // Уровень логирования из переменных окружения
 }

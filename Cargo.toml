@@ -78,8 +78,7 @@ fatfs = { version = "0.3", optional = true }
 #Logging
 log = "0.4.34"
 env_logger = "0.11.11"
-anstyle = "1.0.14"
-paris-log = "1" # Под влияние попадают все строки переданные в логирование, надо осторожно
+owo-colors = "4"
 
 [profile.release]
 opt-level = "z"

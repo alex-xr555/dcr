@@ -243,7 +243,7 @@ pub fn build(args: &[String]) -> i32 {
         }
         Err(err) => {
             common::finish_progress_line();
-            error!("{}", &err.message);
+            error!("{}", err.message);
             1
         }
     }

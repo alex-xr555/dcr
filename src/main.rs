@@ -14,7 +14,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-use crate::utils::log;
 mod cli;
 mod config;
 mod core;
@@ -30,7 +29,7 @@ use prelude::*;
 /// appropriate subcommand handler. With fewer than two arguments, shows help and
 /// exits with code 0; otherwise exits with the handler's exit code.
 fn main() {
-    log::init();
+    utils::log::init();
 
     let args: Vec<String> = std::env::args().collect();
 

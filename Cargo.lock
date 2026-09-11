@@ -221,13 +221,12 @@ dependencies = [
 name = "dcr"
 version = "0.9.1"
 dependencies = [
- "anstyle",
  "ctrlc",
  "env_logger",
  "fatfs",
  "glob",
  "log",
- "paris-log",
+ "owo-colors",
  "self-replace",
  "serde",
  "serde_json",
@@ -748,20 +747,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d05e27ee213611ffe7d6348b942e8f942b37114c00cc03cec254295a4a17852e"
 
 [[package]]
-name = "paris"
-version = "1.5.15"
+name = "owo-colors"
+version = "4.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8fecab3723493c7851f292cb060f3ee1c42f19b8d749345d0d7eaf3fd19aa62d"
-
-[[package]]
-name = "paris-log"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "774dbe6c00feee96462fae6b32789d9f570569f0b1543cea61336932b240d7eb"
-dependencies = [
- "log",
- "paris",
-]
+checksum = "13c45bb4a6ae1280ec0803b1ef9d3455eb50f01efbbe1447ab020f1d54fba9d8"
 
 [[package]]
 name = "percent-encoding"
