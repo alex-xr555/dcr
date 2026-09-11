@@ -15,17 +15,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::utils::text::{BOLD_RED, BOLD_YELLOW, colored};
+pub fn warn(_: &str) {}
+pub fn error(_: &str) {}
 
-/// Logs an error message to the standard error stream.
-///
-/// The message is prefixed with a red "error" label for visibility.
-#[allow(dead_code)]
-pub fn error(msg: &str) {
-    eprintln!("{}: {msg}", colored("error", BOLD_RED));
-}
+use anstyle::{AnsiColor, Style};
+use env_logger::*;
+use log::*;
+use std::io::Write;
 
-#[allow(dead_code)]
-pub fn warn(msg: &str) {
-    eprintln!("{}: {msg}", colored("warn", BOLD_YELLOW));
+// Функция инициализирующая логирование
+pub fn init() {
+    Builder::new()
+        .filter_level(LevelFilter::Warn)
+        .format(|buf, record| {
+            let color = match record.level() {
+                Level::Error => AnsiColor::Red,
+                Level::Warn => AnsiColor::Yellow,
+                Level::Info => AnsiColor::White,
+                Level::Debug => AnsiColor::Magenta,
+                Level::Trace => AnsiColor::BrightBlack,
+            };
+
+            let style = Style::new().fg_color(Some(color.into())).bold();
+
+            writeln!(
+                buf,
+                "{style}{}{style:#}: {}",
+                record.level().to_string().to_lowercase(),
+                record.args(),
+            )
+        })
+        .init();
+
+    // env_logger::init(); // Уровень логирования из переменных окружения
 }
