@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use env_logger::*;
-use log::*;
+use env_logger::{Builder, WriteStyle};
+use log::{Level, LevelFilter};
 use owo_colors::OwoColorize;
 use std::io::Write;
 
