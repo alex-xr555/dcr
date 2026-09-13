@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.9.1] - 2026-08-31 "Системные pkg-config-зависимости / System pkg-config Dependencies"
+## [v0.9.1] - 2026-09-13 "Системные pkg-config-зависимости / System pkg-config Dependencies"
 
 ### RU
 
