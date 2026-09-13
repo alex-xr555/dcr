@@ -134,8 +134,12 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     cflags.extend(get_list_with_profile(&config, "cflags", profile));
     let ldflags = get_list_with_profile(&config, "ldflags", profile);
     let pkg_configs = get_list_with_profile(&config, "pkg_config", profile);
-    let (cflags, ldflags) = resolve_pkg_config_flags(&pkg_configs, &cflags, &ldflags)?;
-    let includes = test_include_dirs(&config, profile);
+    let (mut cflags, mut ldflags) = resolve_pkg_config_flags(&pkg_configs, &cflags, &ldflags)?;
+    let deps = crate::core::deps::resolve_deps(&config, profile, None, Path::new("."))?;
+    cflags.extend(deps.cflags);
+    ldflags.extend(deps.ldflags);
+    let mut includes = test_include_dirs(&config, profile);
+    includes.extend(deps.include_dirs);
     let test_sources = collect_test_sources()?;
     if test_sources.is_empty() {
         return Err("tests/test.c not found; run 'dcr test --init' first".to_string());

@@ -23,7 +23,6 @@ use crate::utils::log::{error, warn};
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use std::fs;
 use std::io::Write;
-use toml::Value;
 
 /// Executes the `dcr new` command to scaffold a new C/C++ project directory structure.
 ///
@@ -110,18 +109,8 @@ pub fn new(args: &[String]) -> i32 {
 
     // Initialize and write project configuration manifest (dcr.toml).
     let toml_path = format!("./{project_name}/dcr.toml");
-    let mut config = match Config::new(&toml_path) {
-        Ok(cfg) => cfg,
-        Err(_) => {
-            error("Failed to create dcr.toml");
-            return 1;
-        }
-    };
-    if config
-        .edit("package.name", Value::String(project_name.to_string()))
-        .is_err()
-    {
-        error("Failed to write dcr.toml");
+    if Config::create(&toml_path, Some(project_name)).is_err() {
+        error("Failed to create dcr.toml");
         return 1;
     }
     println!(

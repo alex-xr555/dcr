@@ -25,7 +25,7 @@ use toml::map::Map;
 
 /// Parsed arguments for the `dcr add` command.
 ///
-/// Exactly one of `path`, `git`, or `version_from_registry` is expected to be set,
+/// Exactly one of `path`, `git`, `pkg_config`, or `version_from_registry` is expected to be set,
 /// depending on how the dependency source was specified.
 pub struct AddArgs {
     /// Dependency name as it will appear under `[dependencies]` in `dcr.toml`.
@@ -42,6 +42,8 @@ pub struct AddArgs {
     pub rev: Option<String>,
     /// Version string resolved from the package registry when no explicit source is given.
     pub version_from_registry: Option<String>,
+    /// Package names resolved through pkg-config.
+    pub pkg_config: Option<Vec<String>>,
 }
 
 /// Adds a dependency to the current project's `dcr.toml`.
@@ -71,6 +73,7 @@ pub fn add(args: &[String]) -> i32 {
         println!("    gitlab:user/repo          GitLab repository");
         println!("    git:host.com/user/repo    Generic git repository");
         println!("    path:./path/to/lib        Local path dependency");
+        println!("    pkg-config:fmt            System pkg-config dependency");
         println!("    <version>                 Version from registry");
         println!();
         printc("OPTIONS:", BOLD_GREEN);
@@ -133,6 +136,17 @@ pub fn add(args: &[String]) -> i32 {
             }
             Value::Table(table)
         }
+    } else if let Some(packages) = add_args.pkg_config {
+        let mut table = Map::new();
+        if packages.len() == 1 {
+            table.insert("pkg-config".to_string(), Value::String(packages[0].clone()));
+        } else {
+            table.insert(
+                "pkg-config".to_string(),
+                Value::Array(packages.into_iter().map(Value::String).collect()),
+            );
+        }
+        Value::Table(table)
     } else if let Some(path) = add_args.path {
         let mut table = Map::new();
         table.insert("path".to_string(), Value::String(path));
@@ -140,7 +154,7 @@ pub fn add(args: &[String]) -> i32 {
     } else if let Some(version) = add_args.version_from_registry {
         Value::String(version)
     } else {
-        error("Dependency source (path or git) must be provided");
+        error("Dependency source (path, git, or pkg-config) must be provided");
         return 1;
     };
 
@@ -171,6 +185,7 @@ fn parse_add_args(args: &[String]) -> Result<AddArgs, i32> {
         error("  gitlab:user/repo          -> gitlab.com/user/repo");
         error("  git:host.com/user/repo    -> host.com/user/repo");
         error("  path:./path/to/lib        -> local path");
+        error("  pkg-config:fmt            -> system pkg-config package");
         return Err(1);
     }
 
@@ -221,6 +236,7 @@ fn parse_add_args(args: &[String]) -> Result<AddArgs, i32> {
                     tag: None,
                     rev: None,
                     version_from_registry: Some(version.to_string()),
+                    pkg_config: None,
                 });
             }
             Err(e) => {
@@ -262,9 +278,25 @@ fn parse_add_args(args: &[String]) -> Result<AddArgs, i32> {
 
     let mut path = None;
     let mut git = None;
+    let mut pkg_config = None;
 
     // Map source prefixes / bare URLs to path or git fields
-    if let Some(p) = source_spec.strip_prefix("path:") {
+    if let Some(p) = source_spec
+        .strip_prefix("pkg-config:")
+        .or_else(|| source_spec.strip_prefix("pkg:"))
+    {
+        let packages = p
+            .split(',')
+            .map(str::trim)
+            .filter(|name| !name.is_empty())
+            .map(str::to_string)
+            .collect::<Vec<_>>();
+        if packages.is_empty() {
+            error("pkg-config source must name at least one package");
+            return Err(1);
+        }
+        pkg_config = Some(packages);
+    } else if let Some(p) = source_spec.strip_prefix("path:") {
         path = Some(p.to_string());
     } else if let Some(g) = source_spec.strip_prefix("github:") {
         git = Some(format!("https://github.com/{}", g));
@@ -295,7 +327,7 @@ fn parse_add_args(args: &[String]) -> Result<AddArgs, i32> {
         path = Some(source_spec);
     } else {
         error(
-            "Source must be a path, a prefixed source (path:, git:, github:, gitlab:), or a full URL",
+            "Source must be a path, pkg-config:, a prefixed source (path:, git:, github:, gitlab:), or a full URL",
         );
         return Err(1);
     }
@@ -308,5 +340,6 @@ fn parse_add_args(args: &[String]) -> Result<AddArgs, i32> {
         tag,
         rev,
         version_from_registry: None,
+        pkg_config,
     })
 }
