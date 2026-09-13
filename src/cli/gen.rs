@@ -42,11 +42,13 @@ struct GenDeps {
     include_dirs: Vec<String>,
     lib_dirs: Vec<String>,
     libs: Vec<String>,
+    cflags: Vec<String>,
+    ldflags: Vec<String>,
 }
 
-/// Collects path-dependency include/lib/libs from `dcr.toml` for code generation.
+/// Collects dependency metadata from `dcr.toml` for code generation.
 ///
-/// Skips `system` deps and non-path entries. Falls back to common include/lib
+/// Resolves path layouts and pkg-config flags while skipping system deps. Falls back to common include/lib
 /// directory names only when those directories exist.
 fn resolve_deps_for_gen(config: &Config, profile: &str, project_root: &Path) -> GenDeps {
     let deps_val = match config.get("dependencies") {
@@ -56,6 +58,8 @@ fn resolve_deps_for_gen(config: &Config, profile: &str, project_root: &Path) -> 
                 include_dirs: vec![],
                 lib_dirs: vec![],
                 libs: vec![],
+                cflags: vec![],
+                ldflags: vec![],
             };
         }
     };
@@ -66,6 +70,8 @@ fn resolve_deps_for_gen(config: &Config, profile: &str, project_root: &Path) -> 
                 include_dirs: vec![],
                 lib_dirs: vec![],
                 libs: vec![],
+                cflags: vec![],
+                ldflags: vec![],
             };
         }
     };
@@ -73,12 +79,37 @@ fn resolve_deps_for_gen(config: &Config, profile: &str, project_root: &Path) -> 
     let mut include_dirs = Vec::new();
     let mut lib_dirs = Vec::new();
     let mut libs = Vec::new();
+    let mut cflags = Vec::new();
+    let mut ldflags = Vec::new();
 
     for (name, value) in deps_table {
         let tbl = match value.as_table() {
             Some(t) => t,
             None => continue,
         };
+        let pkg_names = tbl
+            .get("pkg-config")
+            .or_else(|| tbl.get("pkg_config"))
+            .map(|raw| {
+                raw.as_str()
+                    .map(|s| vec![s.to_string()])
+                    .or_else(|| {
+                        raw.as_array().map(|a| {
+                            a.iter()
+                                .filter_map(|v| v.as_str().map(str::to_string))
+                                .collect()
+                        })
+                    })
+                    .unwrap_or_default()
+            })
+            .unwrap_or_default();
+        if !pkg_names.is_empty() {
+            let (flags, link_flags) =
+                crate::utils::build::resolve_pkg_config_flags_lossy(&pkg_names, &[], &[]);
+            cflags.extend(flags);
+            ldflags.extend(link_flags);
+            continue;
+        }
         // skip system deps
         if tbl.get("system").and_then(|v| v.as_bool()).unwrap_or(false) {
             continue;
@@ -169,6 +200,8 @@ fn resolve_deps_for_gen(config: &Config, profile: &str, project_root: &Path) -> 
         include_dirs,
         lib_dirs,
         libs,
+        cflags,
+        ldflags,
     }
 }
 
@@ -350,8 +383,10 @@ fn collect_project_info_inner(
     });
 
     let resolved = resolve_deps_for_gen(&config, profile, &root);
-    let (resolved_cflags, resolved_ldflags) =
+    let (mut resolved_cflags, mut resolved_ldflags) =
         resolve_pkg_config_flags_lossy(&pkg_configs, &base_cflags, &base_ldflags);
+    resolved_cflags.extend(resolved.cflags.clone());
+    resolved_ldflags.extend(resolved.ldflags.clone());
 
     // Build exclude/include pattern lists (same logic as cli::build)
     let mut combined_excludes: Vec<PathBuf> = Vec::new();

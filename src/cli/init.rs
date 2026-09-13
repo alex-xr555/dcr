@@ -23,7 +23,6 @@ use crate::utils::log::{error, warn};
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use std::fs;
 use std::io::Write;
-use toml::Value;
 
 /// Initializes the current working directory as a new DCR project.
 ///
@@ -91,18 +90,8 @@ pub fn init(args: &[String]) -> i32 {
     println!("Initializing the project in {cwd}");
 
     // Create and initialize default manifest (dcr.toml).
-    let mut config = match Config::new("./dcr.toml") {
-        Ok(cfg) => cfg,
-        Err(_) => {
-            error("Failed to create dcr.toml");
-            return 1;
-        }
-    };
-    if config
-        .edit("package.name", Value::String(project_name.clone()))
-        .is_err()
-    {
-        error("Failed to write dcr.toml");
+    if Config::create("./dcr.toml", Some(&project_name)).is_err() {
+        error("Failed to create dcr.toml");
         return 1;
     }
     println!(
