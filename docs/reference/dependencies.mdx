@@ -56,9 +56,10 @@ fmt = { pkg-config = "fmt" }
 openssl = { pkg-config = ["openssl", "libcrypto"] }
 ```
 
-The `pkg-config` executable and the named packages must be available in `PATH` and
-`PKG_CONFIG_PATH`. These dependencies are not downloaded or built by DCR; they are
-recorded in `dcr.lock` with a `pkg-config+...` source.
+The `pkg-config` executable must be available in `PATH`. The named `.pc` files must
+be available through pkg-config's standard search paths or via `PKG_CONFIG_PATH`.
+These dependencies are not downloaded or built by DCR; they are recorded in
+`dcr.lock` with a `pkg-config+...` source.
 
 ## Registry
 

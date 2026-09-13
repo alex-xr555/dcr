@@ -256,7 +256,7 @@ impl Config {
         let (data, doc) = if path.exists() {
             load_parts(&path)?
         } else {
-            let content = default_toml_text(package_name);
+            let content = default_toml_text(package_name)?;
             let doc: DocumentMut = content.parse().map_err(ConfigError::TomlEdit)?;
             fs::write(&path, doc.to_string())?;
             let data: Value = toml::from_str(&content)?;
@@ -836,7 +836,7 @@ fn load_parts(path: &Path) -> Result<(Value, DocumentMut), ConfigError> {
     Ok((data, doc))
 }
 
-fn default_toml_text(package_name: Option<&str>) -> String {
+fn default_toml_text(package_name: Option<&str>) -> Result<String, ConfigError> {
     let name = package_name
         .map(|s| s.to_string())
         .or_else(|| {
@@ -845,9 +845,11 @@ fn default_toml_text(package_name: Option<&str>) -> String {
                 .and_then(|p| p.file_name().map(|v| v.to_string_lossy().to_string()))
         })
         .unwrap_or_else(|| "project".to_string());
+    validate_non_empty_string(&name, "package.name")?;
+    validate_package_name(&name)?;
     let dcr_version = env!("CARGO_PKG_VERSION");
 
-    format!(
+    Ok(format!(
         "[package]\n\
          name = \"{name}\"\n\
          version = \"{DEFAULT_VERSION}\"\n\
@@ -864,7 +866,7 @@ fn default_toml_text(package_name: Option<&str>) -> String {
          kind = \"{DEFAULT_KIND}\"\n\
          \n\
          [dependencies]\n"
-    )
+    ))
 }
 
 fn dcr_version_warn_once(path_key: &str) -> bool {
@@ -1292,6 +1294,22 @@ mod tests {
         assert!(
             saved.contains("# top comment"),
             "leading comment must be preserved, got:\n{saved}"
+        );
+    }
+
+    #[test]
+    fn create_rejects_invalid_name_without_writing_manifest() {
+        let dir = temp_dir("invalid_create_name");
+        let path = dir.join("dcr.toml");
+        for name in ["", "bad name", "../bad", "bad\"name", " bad", "bad."] {
+            let result = Config::create(&path.to_string_lossy(), Some(name));
+            assert!(matches!(result, Err(ConfigError::Invalid(_))), "{name:?}");
+            assert!(!path.exists(), "invalid name must not create a manifest");
+        }
+        let config = Config::create(&path.to_string_lossy(), Some("valid-name")).unwrap();
+        assert_eq!(
+            config.get("package.name").and_then(Value::as_str),
+            Some("valid-name")
         );
     }
 
