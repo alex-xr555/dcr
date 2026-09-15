@@ -253,8 +253,7 @@ pub fn normalize_target_os(target: &str) -> &str {
         _ if target.contains('-') => target,
         _ => {
             warn!(
-                "Unknown target '{}', using as-is. Supported short names: linux, macos, windows",
-                target
+                "Unknown target '{target}', using as-is. Supported short names: linux, macos, windows"
             );
             target
         }

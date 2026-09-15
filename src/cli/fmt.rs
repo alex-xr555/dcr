@@ -89,11 +89,11 @@ pub fn fmt(args: &[String]) -> i32 {
             0
         }
         Ok(s) => {
-            error!("clang-format failed with status: {}", s);
+            error!("clang-format failed with status: {s}");
             1
         }
         Err(e) => {
-            error!("Failed to execute clang-format: {}", e);
+            error!("Failed to execute clang-format: {e}");
             1
         }
     }

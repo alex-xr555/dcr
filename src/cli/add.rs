@@ -161,7 +161,7 @@ pub fn add(args: &[String]) -> i32 {
 
     let key = format!("dependencies.{}", add_args.name);
     if let Err(err) = config.edit(&key, dep_value) {
-        error!("Failed to update dcr.toml: {}", err);
+        error!("Failed to update dcr.toml: {err}");
         return 1;
     }
 
