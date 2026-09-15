@@ -20,7 +20,7 @@ use log::{Level, LevelFilter};
 use owo_colors::OwoColorize;
 use std::io::Write;
 
-// Функция инициализирующая логирование
+// A function for initializing the logging lib with basic settings.
 pub fn init() {
     Builder::new()
         .filter_level(LevelFilter::Warn)
