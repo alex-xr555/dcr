@@ -17,7 +17,7 @@
 
 use crate::prelude::*;
 
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, printc};
 use glob::glob;
 use std::process::Command;
 
@@ -70,14 +70,14 @@ pub fn fmt(args: &[String]) -> i32 {
     }
 
     if files.is_empty() {
-        println!("    {} No files to format", colored("Format", BOLD_GREEN));
+        println!("    {} No files to format", "Format".style(BOLD_GREEN));
         return 0;
     }
 
     // Format the collected files
     println!(
         "    {} {} files",
-        colored("Formatting", BOLD_GREEN),
+        "Formatting".style(BOLD_GREEN),
         files.len()
     );
 
@@ -85,7 +85,7 @@ pub fn fmt(args: &[String]) -> i32 {
 
     match status {
         Ok(s) if s.success() => {
-            println!("    {} successful", colored("Format", BOLD_GREEN));
+            println!("    {} successful", "Format".style(BOLD_GREEN));
             0
         }
         Ok(s) => {

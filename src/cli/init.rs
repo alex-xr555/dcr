@@ -20,8 +20,14 @@ use crate::prelude::*;
 use crate::config::FILE_MAIN_C;
 use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
+use crate::utils::cli_styles::{
+    BOLD_CYAN,
+    BOLD_GREEN,
+    OwoColorize,
+    // colored,
+    printc,
+};
 use crate::utils::fs::check_dir;
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use std::fs;
 use std::io::Write;
 
@@ -79,7 +85,7 @@ pub fn init(args: &[String]) -> i32 {
     if let Err(e) = validate_package_name(&project_name) {
         error!(
             "Invalid project name `{}`: {e}",
-            colored(&project_name, BOLD_CYAN),
+            project_name.style(BOLD_CYAN),
         );
         return 1;
     }
@@ -96,8 +102,8 @@ pub fn init(args: &[String]) -> i32 {
     }
     println!(
         "    {} Created file {}",
-        colored("✔", BOLD_GREEN),
-        colored("dcr.toml", BOLD_CYAN)
+        "✔".style(BOLD_GREEN),
+        "dcr.toml".style(BOLD_CYAN)
     );
 
     // Create src directory and write template main.c file.
@@ -118,8 +124,8 @@ pub fn init(args: &[String]) -> i32 {
     }
     println!(
         "    {} Created file {}",
-        colored("✔", BOLD_GREEN),
-        colored("src/main.c", BOLD_CYAN)
+        "✔".style(BOLD_GREEN),
+        "src/main.c".style(BOLD_CYAN)
     );
 
     // Resolve target VCS provider or detect existing repositories.
@@ -144,10 +150,7 @@ pub fn init(args: &[String]) -> i32 {
             if let Err(e) = crate::core::vcs::init_vcs(vcs_kind, project_path) {
                 warn!("Failed to initialize git repository: {e}");
             } else {
-                println!(
-                    "    {} Initialized git repository",
-                    colored("✔", BOLD_GREEN)
-                );
+                println!("    {} Initialized git repository", "✔".style(BOLD_GREEN));
             }
         } else {
             warn!(
@@ -162,7 +165,7 @@ pub fn init(args: &[String]) -> i32 {
 
     println!(
         "Project `{}` successfully created\n",
-        colored(project_name.as_str(), BOLD_GREEN)
+        project_name.style(BOLD_GREEN)
     );
     printc("Next step:", BOLD_GREEN);
     printc("    dcr run", BOLD_CYAN);

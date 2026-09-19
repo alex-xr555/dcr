@@ -19,8 +19,14 @@ use crate::prelude::*;
 
 use crate::core::build_config::Config;
 use crate::core::deps::register;
+use crate::utils::cli_styles::{
+    BOLD_CYAN,
+    BOLD_GREEN,
+    OwoColorize,
+    // colored,
+    printc,
+};
 use crate::utils::fs::find_project_root;
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use toml::Value;
 use toml::map::Map;
 
@@ -167,7 +173,7 @@ pub fn add(args: &[String]) -> i32 {
 
     println!(
         "    {} dependency `{}` to dcr.toml",
-        colored("Added", BOLD_GREEN),
+        "Added".style(BOLD_GREEN),
         add_args.name
     );
     0

@@ -20,9 +20,15 @@ use crate::prelude::*;
 use crate::core::build_config::Config;
 use crate::core::workspace::parse_workspace;
 use crate::utils::build::{default_profile_flags, default_target_triple, parse_version_info};
+use crate::utils::cli_styles::{
+    BOLD_CYAN,
+    BOLD_GREEN,
+    // colored,
+    printc,
+};
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use glob::glob;
+use owo_colors::OwoColorize;
 use std::fs;
 use std::path::Path;
 
@@ -211,10 +217,7 @@ fn clean_project_at(
         if !items.contains(&"dcr.toml".to_string()) {
             return Err("dcr.toml file not found".to_string());
         }
-        println!(
-            "    Cleaning project `{}`",
-            colored(&project_name, BOLD_GREEN)
-        );
+        println!("    Cleaning project `{}`", project_name.style(BOLD_GREEN));
         if let Some(profile) = profile {
             let target_dir = if let Some(t) = target {
                 format!("target/{t}/{profile}")
@@ -232,14 +235,14 @@ fn clean_project_at(
             if !dir_exists {
                 warn!("Directory target/{target_dir} not found");
             } else {
-                println!("    Profile: {}", colored(profile, BOLD_GREEN));
+                println!("    Profile: {}", profile.style(BOLD_GREEN));
                 if let Some(t) = target {
-                    println!("    Target: {}", colored(t, BOLD_GREEN));
+                    println!("    Target: {}", t.style(BOLD_GREEN));
                 }
                 let _ = fs::remove_dir_all(&target_dir);
                 println!(
                     "{} Removed directory {}",
-                    colored("\n    ✔", BOLD_GREEN),
+                    "\n    ✔".style(BOLD_GREEN),
                     target_dir
                 );
             }
@@ -249,10 +252,7 @@ fn clean_project_at(
 
         if items.contains(&"target".to_string()) {
             let _ = fs::remove_dir_all("target");
-            println!(
-                "{} Removed directory target",
-                colored("\n    ✔", BOLD_GREEN)
-            );
+            println!("{} Removed directory target", "\n    ✔".style(BOLD_GREEN));
         } else {
             warn!("Directory target not found");
         }

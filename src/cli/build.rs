@@ -28,17 +28,26 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile_or_default, get_string_with_profile,
     normalize_kind, resolve_artifact_target_dir, resolve_compiler,
 };
+use crate::utils::cli_styles::{
+    BOLD_CYAN,
+    BOLD_GREEN,
+    BOLD_YELLOW,
+    OwoColorize,
+    // colored,
+    printc,
+};
 use crate::utils::fs::{canonicalize_path, find_project_root};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, colored, printc};
 use std::io::IsTerminal;
 use std::path::Path;
 use std::sync::{Arc, atomic::AtomicBool};
 
 pub use crate::core::build::get_build_string_with_profile;
 
+use owo_colors::Style;
+
 /// Formats a left-aligned status verb with the given style for CLI output.
-fn status(verb: &str, style: &str) -> String {
-    colored(&format!("{verb:<9}"), style)
+fn status(verb: &str, style: Style) -> String {
+    format!("{verb:<9}").style(style).to_string()
 }
 
 /// CLI build reporter that prints human-readable progress to stderr/stdout.
@@ -51,7 +60,7 @@ impl CliReporter {
     /// - `verb`: Short status label (e.g. `"target"`, `"dep"`).
     /// - `style`: Color/style constant for the verb.
     /// - `rest`: Remaining message text after the verb.
-    fn line(&self, verb: &str, style: &str, rest: &str) {
+    fn line(&self, verb: &str, style: Style, rest: &str) {
         eprintln!("  {} {}", status(verb, style), rest);
     }
 }

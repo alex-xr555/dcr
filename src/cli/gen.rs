@@ -31,7 +31,7 @@ use crate::utils::build::{
 use crate::utils::fs::{
     absolute_join, atomic_write, canonicalize_path, ensure_dcr_dir, find_project_root,
 };
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, printc};
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 

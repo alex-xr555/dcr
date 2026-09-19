@@ -18,7 +18,7 @@
 use crate::prelude::*;
 
 use crate::core::build_config::Config;
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, printc};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use toml::Value;

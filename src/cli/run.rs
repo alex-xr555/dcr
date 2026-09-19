@@ -22,9 +22,15 @@ use crate::cli::flags::parse_build_run_flags;
 use crate::core::build_config::Config;
 use crate::core::runner::run_binary;
 use crate::utils::build::{normalize_target_os, parse_version_info, substitute_vars};
+use crate::utils::cli_styles::{
+    BOLD_CYAN,
+    BOLD_GREEN,
+    OwoColorize,
+    // s_println, // colored,
+    printc,
+};
 use crate::utils::fs::find_project_root;
 use crate::utils::fs::with_dir;
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use std::path::Path;
 use std::process::Command;
 
@@ -129,7 +135,7 @@ pub fn run(args: &[String]) -> i32 {
                 let display = display_run_cmd(&cmd, &flags.bin_args);
                 println!(
                     "  {} {}",
-                    colored(&format!("{:<9}", "run"), BOLD_GREEN),
+                    format!("{:<9}", "run").style(BOLD_GREEN),
                     display
                 );
                 return run_shell_with_args(&cmd, &flags.bin_args);
@@ -269,7 +275,7 @@ fn run_project(
             let display = display_run_cmd(&cmd, &flags.bin_args);
             println!(
                 "  {} {}",
-                colored(&format!("{:<9}", "run"), BOLD_GREEN),
+                format!("{:<9}", "run").style(BOLD_GREEN),
                 display
             );
             return Ok(run_shell_with_args(&cmd, &flags.bin_args));
@@ -277,7 +283,7 @@ fn run_project(
         let display = display_bin_run(&bin_path, &flags.bin_args);
         println!(
             "  {} {}",
-            colored(&format!("{:<9}", "run"), BOLD_GREEN),
+            format!("{:<9}", "run").style(BOLD_GREEN),
             display
         );
         return Ok(run_binary(

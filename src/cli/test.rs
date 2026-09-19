@@ -24,13 +24,20 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile, get_list_with_profile,
     get_string_with_profile, resolve_compiler, resolve_pkg_config_flags,
 };
+use crate::utils::cli_styles::{
+    BOLD_BLUE,
+    BOLD_CYAN,
+    BOLD_GREEN,
+    BOLD_RED,
+    // colored,
+    printc,
+};
 use crate::utils::fs::{find_project_root, with_dir};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, BOLD_RED, RESET, colored, printc};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-const BOLD_BLUE: &str = "\x1b[1m\x1b[94m";
+// const BOLD_BLUE: &str = "\x1b[1m\x1b[94m"; // бляяя какой бреееед
 
 /// Runs project tests and prints a unified testsuite report.
 pub fn test(args: &[String]) -> i32 {
@@ -195,19 +202,19 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     for line in stdout.lines() {
         let line = line.trim();
         if let Some(name) = line.strip_prefix("[PASS] ") {
-            println!("{} {}", colored("[PASS]", BOLD_GREEN), name);
+            println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
             pass += 1;
             parsed_any = true;
             continue;
         }
         if let Some(name) = line.strip_prefix("[SKIP] ") {
-            println!("{} {}", colored("[SKIP]", BOLD_BLUE), name);
+            println!("{} {}", "[SKIP]".style(BOLD_BLUE), name);
             skip += 1;
             parsed_any = true;
             continue;
         }
         if let Some(name) = line.strip_prefix("[FAIL] ") {
-            println!("{} {}", colored("[FAIL]", BOLD_RED), name);
+            println!("{} {}", "[FAIL]".style(BOLD_RED), name);
             fail += 1;
             parsed_any = true;
             continue;
@@ -215,17 +222,17 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
         if let Some((status, name)) = line.split_once('\t') {
             match status {
                 "PASS" => {
-                    println!("{} {}", colored("[PASS]", BOLD_GREEN), name);
+                    println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
                     pass += 1;
                     parsed_any = true;
                 }
                 "SKIP" => {
-                    println!("{} {}", colored("[SKIP]", BOLD_BLUE), name);
+                    println!("{} {}", "[SKIP]".style(BOLD_BLUE), name);
                     skip += 1;
                     parsed_any = true;
                 }
                 "FAIL" => {
-                    println!("{} {}", colored("[FAIL]", BOLD_RED), name);
+                    println!("{} {}", "[FAIL]".style(BOLD_RED), name);
                     fail += 1;
                     parsed_any = true;
                 }
@@ -237,11 +244,11 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     if !parsed_any {
         if suite_success {
             for name in &declared {
-                println!("{} {}", colored("[PASS]", BOLD_GREEN), name);
+                println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
             }
             pass = declared.len() as i32;
         } else {
-            println!("{} testsuite", colored("[FAIL]", BOLD_RED));
+            println!("{} testsuite", "[FAIL]".style(BOLD_RED));
             fail = 1;
         }
     }
@@ -253,14 +260,15 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     };
 
     println!();
-    println!("{}", colored("=====================", BOLD_GREEN));
-    println!("{}", colored("  Testsuite summary  ", BOLD_GREEN));
-    println!("{}", colored("=====================", BOLD_GREEN));
+    printc("=====================", BOLD_GREEN);
+    printc("  Testsuite summary  ", BOLD_GREEN);
+    printc("=====================", BOLD_GREEN);
     println!("TOTAL: {}", total);
     print_field("PASS", pass, BOLD_GREEN);
     print_field("SKIP", skip, BOLD_BLUE);
     print_field("FAIL", fail, BOLD_RED);
-    println!("{}", colored("=====================", BOLD_GREEN));
+    printc("=====================", BOLD_GREEN);
+    printc("=====================", BOLD_GREEN);
 
     if fail > 0 || !suite_success {
         return Ok(1);
@@ -394,11 +402,13 @@ fn extract_test_names_path(path: &Path) -> Vec<String> {
     names
 }
 
+use owo_colors::{OwoColorize, Style};
+
 /// Prints a test result field with color coding.
-fn print_field(label: &str, value: i32, color: &str) {
+fn print_field(label: &str, value: i32, style: Style) {
     if value == 0 {
         println!("{}:  {}", label, value);
     } else {
-        println!("{}{}:  {}{}", color, label, value, RESET);
+        println!("{}", format!("{}:  {}", label, value).style(style));
     }
 }
