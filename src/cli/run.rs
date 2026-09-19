@@ -22,11 +22,9 @@ use crate::cli::flags::parse_build_run_flags;
 use crate::core::build_config::Config;
 use crate::core::runner::run_binary;
 use crate::utils::build::{normalize_target_os, parse_version_info, substitute_vars};
-use crate::utils::fs::find_project_root;
-use crate::utils::fs::with_dir;
+use crate::utils::fs::{find_project_root, with_dir};
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
-use std::path::Path;
-use std::process::Command;
+use std::{path::Path, process::Command};
 
 /// Retrieves the run command from the config, preferring target-specific,
 /// then profile-specific, then the base `run.cmd`.

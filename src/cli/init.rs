@@ -22,8 +22,7 @@ use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
 use crate::utils::fs::check_dir;
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
-use std::fs;
-use std::io::Write;
+use std::{fs, io::Write};
 
 /// Initializes the current working directory as a new DCR project.
 ///

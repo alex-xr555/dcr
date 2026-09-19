@@ -21,8 +21,7 @@ use serde::Deserialize;
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use toml::Value;
-use toml::map::Map;
+use toml::{Value, map::Map};
 use toml_edit::{DocumentMut, Item, Table};
 
 const DEFAULT_VERSION: &str = "0.1.0";
