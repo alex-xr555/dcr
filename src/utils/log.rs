@@ -60,7 +60,7 @@ macro_rules! sprint {
     ($style:expr, $($arg:tt)*) => {
         {
             use ::owo_colors::OwoColorize as _;
-            println!("{}", format!($($arg)*).style($style));
+            print!("{}", format!($($arg)*).style($style));
         }
     };
 }
