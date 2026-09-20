@@ -20,11 +20,12 @@ use crate::prelude::*;
 use crate::core::build_config::Config;
 use crate::core::workspace::parse_workspace;
 use crate::utils::build::{default_profile_flags, default_target_triple, parse_version_info};
-use crate::utils::cli_styles::{BOLD_GREEN, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST};
+use crate::utils::cli_styles::{
+    BOLD_GREEN, Colorize, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST,
+};
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use crate::utils::log::sprintln;
 use glob::glob;
-use owo_colors::OwoColorize;
 use std::fs;
 use std::path::Path;
 
