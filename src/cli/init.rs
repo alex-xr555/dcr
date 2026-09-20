@@ -25,8 +25,7 @@ use crate::utils::cli_styles::{
 };
 use crate::utils::fs::check_dir;
 use crate::utils::log::sprintln;
-use std::fs;
-use std::io::Write;
+use std::{fs, io::Write};
 
 /// Initializes the current working directory as a new DCR project.
 ///

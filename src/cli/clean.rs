@@ -26,8 +26,7 @@ use crate::utils::cli_styles::{
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use crate::utils::log::sprintln;
 use glob::glob;
-use std::fs;
-use std::path::Path;
+use std::{fs, path::Path};
 
 /// Entry point for the `dcr clean` command.
 ///
