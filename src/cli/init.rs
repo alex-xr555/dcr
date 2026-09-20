@@ -20,7 +20,9 @@ use crate::prelude::*;
 use crate::config::FILE_MAIN_C;
 use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
+use crate::utils::cli_styles::{
+    BOLD_CYAN, BOLD_GREEN, Colorize, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST,
+};
 use crate::utils::fs::check_dir;
 use crate::utils::log::sprintln;
 use std::fs;
@@ -32,10 +34,10 @@ use std::io::Write;
 /// `dcr.toml` and `src/main.c`, and configures version control (Git) integration if applicable.
 pub fn init(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
-        sprintln!(BOLD_CYAN, "    dcr init [--vcs <git|none>]");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
+        sprintln!(HELP_EXAMPLES_ST, "    dcr init [--vcs <git|none>]");
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Initializes the current directory as a DCR project.");
         println!("    The directory must be empty.");
         return 0;

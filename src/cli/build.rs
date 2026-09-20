@@ -28,7 +28,9 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile_or_default, get_string_with_profile,
     normalize_kind, resolve_artifact_target_dir, resolve_compiler,
 };
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, OwoColorize, SUCCESS_ST};
+use crate::utils::cli_styles::{
+    BOLD_CYAN, BOLD_YELLOW, Colorize, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST,
+};
 use crate::utils::fs::{canonicalize_path, find_project_root};
 use crate::utils::log::sprintln;
 use std::io::IsTerminal;
@@ -144,16 +146,16 @@ impl BuildReporter for CliReporter {
 /// Process exit code: `0` on success or help, non-zero on failure.
 pub fn build(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
         sprintln!(
-            BOLD_CYAN,
+            HELP_EXAMPLES_ST,
             "    dcr build [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [--print-artifact-path]"
         );
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Compiles the project. Default profile is --debug.");
         println!();
-        sprintln!(BOLD_GREEN, "OPTIONS:");
+        sprintln!(HELP_SECTION_TITLE_ST, "OPTIONS:");
         println!("    --debug              Build with debug profile (default)");
         println!("    --release            Build with release profile");
         println!("    --target <triple>    Cross-compile for the given target");

@@ -15,25 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-pub use owo_colors::{OwoColorize, Style};
+pub use owo_colors::{OwoColorize as Colorize, Style};
 
 // Сli theme styles
-// #[allow(dead_code)]
+// Main
+#[allow(dead_code)]
 pub const BOLD_RED: Style = Style::new().bright_red().bold();
-// #[allow(dead_code)]
-pub const BOLD_GREEN: Style = Style::new().bright_green().bold(); //BOLD_GREEN
-// #[allow(dead_code)]
+#[allow(dead_code)]
+pub const BOLD_GREEN: Style = Style::new().bright_green().bold();
+#[allow(dead_code)]
 pub const BOLD_YELLOW: Style = Style::new().bright_yellow().bold();
-// #[allow(dead_code)]
+#[allow(dead_code)]
 pub const BOLD_CYAN: Style = Style::new().bright_cyan().bold();
-// #[allow(dead_code)]
+#[allow(dead_code)]
 pub const BOLD_BLUE: Style = Style::new().bright_blue().bold();
 
-// #[allow(dead_code)]
+// Help
+#[allow(dead_code)]
+pub const HELP_SECTION_TITLE_ST: Style = BOLD_GREEN;
+#[allow(dead_code)]
+pub const HELP_EXAMPLES_ST: Style = BOLD_CYAN;
+
+// Other
+#[allow(dead_code)]
 pub const ERROR_ST: Style = BOLD_RED;
-// #[allow(dead_code)]
+#[allow(dead_code)]
 pub const SUCCESS_ST: Style = BOLD_GREEN;
-// #[allow(dead_code)]
+#[allow(dead_code)]
 pub const ALERT_ST: Style = BOLD_YELLOW;
-// #[allow(dead_code)]
+#[allow(dead_code)]
 pub const SKIP_ST: Style = BOLD_BLUE;

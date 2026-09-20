@@ -28,7 +28,7 @@ use crate::utils::build::{
     get_list_with_profile, get_string_with_profile, normalize_kind, normalize_platform,
     resolve_artifact_target_dir, resolve_compiler, resolve_pkg_config_flags_lossy,
 };
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
+use crate::utils::cli_styles::{HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST};
 use crate::utils::fs::{
     absolute_join, atomic_write, canonicalize_path, ensure_dcr_dir, find_project_root,
 };
@@ -253,29 +253,29 @@ pub struct ProjectInfo {
 pub fn r#gen(args: &[String]) -> i32 {
     let subcommand = match args.first() {
         Some(s) if s == "--help" => {
-            sprintln!(BOLD_GREEN, "USAGE:");
-            sprintln!(BOLD_CYAN, "    dcr gen <subcommand>");
+            sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
+            sprintln!(HELP_EXAMPLES_ST, "    dcr gen <subcommand>");
             println!();
-            sprintln!(BOLD_GREEN, "DESCRIPTION:");
+            sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
             println!("    Generates IDE and tooling integration files.");
             println!();
-            sprintln!(BOLD_GREEN, "SUBCOMMANDS:");
+            sprintln!(HELP_SECTION_TITLE_ST, "SUBCOMMANDS:");
             println!("    project-info      Print project metadata as JSON");
             println!("    compile-commands  Generate .dcr/compile_commands.json");
             println!("    vscode            Generate .vscode/ integration files");
             println!("    clion             Generate .idea/ integration files");
             println!();
-            sprintln!(BOLD_GREEN, "OPTIONS:");
+            sprintln!(HELP_SECTION_TITLE_ST, "OPTIONS:");
             println!("    --debug | --release   Profile (default: debug)");
             println!("    --quiet | -q          Suppress success messages on stdout");
             return 0;
         }
         Some(s) => s.as_str(),
         None => {
-            sprintln!(BOLD_GREEN, "USAGE:");
-            sprintln!(BOLD_CYAN, "    dcr gen <subcommand>");
+            sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
+            sprintln!(HELP_EXAMPLES_ST, "    dcr gen <subcommand>");
             println!();
-            sprintln!(BOLD_GREEN, "SUBCOMMANDS:");
+            sprintln!(HELP_SECTION_TITLE_ST, "SUBCOMMANDS:");
             println!("    project-info      Print project metadata as JSON");
             println!("    compile-commands  Generate .dcr/compile_commands.json");
             println!("    vscode            Generate .vscode/ integration files");

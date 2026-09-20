@@ -19,7 +19,7 @@ use crate::prelude::*;
 
 use crate::core::build_config::Config;
 use crate::core::deps::register;
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
+use crate::utils::cli_styles::{Colorize, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST};
 use crate::utils::fs::find_project_root;
 use crate::utils::log::sprintln;
 use toml::Value;
@@ -61,16 +61,16 @@ pub struct AddArgs {
 /// Process exit code: `0` on success, non-zero on usage or I/O errors.
 pub fn add(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
         sprintln!(
-            BOLD_CYAN,
+            HELP_EXAMPLES_ST,
             "    dcr add <name> <source> [--branch <b>] [--tag <t>] [--rev <r>]"
         );
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Adds a dependency to the project.");
         println!();
-        sprintln!(BOLD_GREEN, "SOURCES:");
+        sprintln!(HELP_SECTION_TITLE_ST, "SOURCES:");
         println!("    github:user/repo          GitHub repository");
         println!("    gitlab:user/repo          GitLab repository");
         println!("    git:host.com/user/repo    Generic git repository");
@@ -78,7 +78,7 @@ pub fn add(args: &[String]) -> i32 {
         println!("    pkg-config:fmt            System pkg-config dependency");
         println!("    <version>                 Version from registry");
         println!();
-        sprintln!(BOLD_GREEN, "OPTIONS:");
+        sprintln!(HELP_SECTION_TITLE_ST, "OPTIONS:");
         println!("    --branch <b>    Use a specific branch");
         println!("    --tag <t>       Use a specific tag");
         println!("    --rev <r>       Use a specific commit hash");

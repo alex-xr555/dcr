@@ -20,7 +20,7 @@ use crate::prelude::*;
 use crate::core::build_config::Config;
 use crate::core::workspace::parse_workspace;
 use crate::utils::build::{default_profile_flags, default_target_triple, parse_version_info};
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, SUCCESS_ST};
+use crate::utils::cli_styles::{BOLD_GREEN, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST, SUCCESS_ST};
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use crate::utils::log::sprintln;
 use glob::glob;
@@ -39,16 +39,16 @@ use std::path::Path;
 /// Process exit code: `0` on success, `1` on failure.
 pub fn clean(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
         sprintln!(
-            BOLD_CYAN,
+            HELP_EXAMPLES_ST,
             "    dcr clean [--debug | --release] [--target <triple>] [--all]"
         );
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Removes build artifacts from the target directory.");
         println!();
-        sprintln!(BOLD_GREEN, "OPTIONS:");
+        sprintln!(HELP_SECTION_TITLE_ST, "OPTIONS:");
         println!("    --debug              Clean debug artifacts (default)");
         println!("    --release            Clean release artifacts");
         println!("    --target <triple>    Clean artifacts for a specific target");

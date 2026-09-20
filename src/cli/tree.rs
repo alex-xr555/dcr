@@ -18,7 +18,7 @@
 use crate::prelude::*;
 
 use crate::core::build_config::Config;
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
+use crate::utils::cli_styles::{BOLD_CYAN, HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST};
 use crate::utils::log::sprintln;
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
@@ -30,10 +30,10 @@ use toml::Value;
 /// Otherwise, it parses the dcr.toml configuration and prints the dependency tree.
 pub fn tree(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
-        sprintln!(BOLD_CYAN, "    dcr tree");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
+        sprintln!(HELP_EXAMPLES_ST, "    dcr tree");
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Displays the dependency tree of the current project.");
         return 0;
     }

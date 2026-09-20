@@ -15,16 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
+use crate::utils::cli_styles::{HELP_EXAMPLES_ST, HELP_SECTION_TITLE_ST};
 use crate::utils::log::sprintln;
 
 /// Sets up DCR registries by loading the registry manager and printing the list of registries.
 pub fn setup(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        sprintln!(BOLD_GREEN, "USAGE:");
-        sprintln!(BOLD_CYAN, "    dcr setup");
+        sprintln!(HELP_SECTION_TITLE_ST, "USAGE:");
+        sprintln!(HELP_EXAMPLES_ST, "    dcr setup");
         println!();
-        sprintln!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(HELP_SECTION_TITLE_ST, "DESCRIPTION:");
         println!("    Sets up DCR registries. Downloads and indexes");
         println!("    package registries for dependency resolution.");
         return 0;
