@@ -17,18 +17,11 @@
 
 pub use owo_colors::{OwoColorize, Style};
 
-// // #[allow(dead_code)]
-// pub const BRIGHT_RED: Style = Style::new().bright_red();
-// // #[allow(dead_code)]
-// pub const BRIGHT_GREEN: Style = Style::new().bright_green();
-// // #[allow(dead_code)]
-// pub const BRIGHT_YELLOW: Style = Style::new().bright_yellow();
-// // #[allow(dead_code)]
-// pub const BRIGHT_CYAN: Style = Style::new().bright_cyan();
+// Сli theme styles
 // #[allow(dead_code)]
 pub const BOLD_RED: Style = Style::new().bright_red().bold();
 // #[allow(dead_code)]
-pub const BOLD_GREEN: Style = Style::new().bright_green().bold();
+pub const BOLD_GREEN: Style = Style::new().bright_green().bold(); //BOLD_GREEN
 // #[allow(dead_code)]
 pub const BOLD_YELLOW: Style = Style::new().bright_yellow().bold();
 // #[allow(dead_code)]
@@ -36,16 +29,19 @@ pub const BOLD_CYAN: Style = Style::new().bright_cyan().bold();
 // #[allow(dead_code)]
 pub const BOLD_BLUE: Style = Style::new().bright_blue().bold();
 
-// /// Applies ANSI escape codes to format the message with the given style.
-// ///
-// /// This is a utility for colored output in terminal applications.
 // #[allow(dead_code)]
-// pub fn styled(msg: &str, style: Style) -> String {
-//     msg.style(style).to_string()
-// }
+pub const ERROR_ST: Style = BOLD_RED;
+// #[allow(dead_code)]
+pub const SUCCESS_ST: Style = BOLD_GREEN;
+// #[allow(dead_code)]
+pub const ALERT_ST: Style = BOLD_YELLOW;
+// #[allow(dead_code)]
+pub const SKIP_ST: Style = BOLD_BLUE;
+// #[allow(dead_code)]
+// pub const BOLD_CYAN: Style = Style::new().bright_cyan().bold();
 
+// перенести в log
 /// Prints `msg` to stdout with the given `style`.
-// #[macro_export]
 #[allow(unused_macros)]
 macro_rules! s_println {
     ($style:expr, $($arg:tt)*) => {
@@ -57,7 +53,6 @@ macro_rules! s_println {
 }
 
 /// Prints `msg` to stdout with the given `style`.
-// #[macro_export]
 #[allow(unused_macros)]
 macro_rules! s_print {
     ($style:expr, $($arg:tt)*) => {
@@ -70,4 +65,3 @@ macro_rules! s_print {
 
 #[allow(unused_imports)]
 pub(crate) use {s_print, s_println};
-// pub use crate::{s_print, s_println};

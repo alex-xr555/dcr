@@ -24,14 +24,7 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile, get_list_with_profile,
     get_string_with_profile, resolve_compiler, resolve_pkg_config_flags,
 };
-use crate::utils::cli_styles::{
-    BOLD_BLUE,
-    BOLD_CYAN,
-    BOLD_GREEN,
-    BOLD_RED,
-    // colored,
-    s_println,
-};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, ERROR_ST, SKIP_ST, SUCCESS_ST, s_println};
 use crate::utils::fs::{find_project_root, with_dir};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -202,19 +195,19 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     for line in stdout.lines() {
         let line = line.trim();
         if let Some(name) = line.strip_prefix("[PASS] ") {
-            println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
+            println!("{} {}", "[PASS]".style(SUCCESS_ST), name);
             pass += 1;
             parsed_any = true;
             continue;
         }
         if let Some(name) = line.strip_prefix("[SKIP] ") {
-            println!("{} {}", "[SKIP]".style(BOLD_BLUE), name);
+            println!("{} {}", "[SKIP]".style(SKIP_ST), name);
             skip += 1;
             parsed_any = true;
             continue;
         }
         if let Some(name) = line.strip_prefix("[FAIL] ") {
-            println!("{} {}", "[FAIL]".style(BOLD_RED), name);
+            println!("{} {}", "[FAIL]".style(ERROR_ST), name);
             fail += 1;
             parsed_any = true;
             continue;
@@ -222,17 +215,17 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
         if let Some((status, name)) = line.split_once('\t') {
             match status {
                 "PASS" => {
-                    println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
+                    println!("{} {}", "[PASS]".style(SUCCESS_ST), name);
                     pass += 1;
                     parsed_any = true;
                 }
                 "SKIP" => {
-                    println!("{} {}", "[SKIP]".style(BOLD_BLUE), name);
+                    println!("{} {}", "[SKIP]".style(SKIP_ST), name);
                     skip += 1;
                     parsed_any = true;
                 }
                 "FAIL" => {
-                    println!("{} {}", "[FAIL]".style(BOLD_RED), name);
+                    println!("{} {}", "[FAIL]".style(ERROR_ST), name);
                     fail += 1;
                     parsed_any = true;
                 }
@@ -244,11 +237,11 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     if !parsed_any {
         if suite_success {
             for name in &declared {
-                println!("{} {}", "[PASS]".style(BOLD_GREEN), name);
+                println!("{} {}", "[PASS]".style(SUCCESS_ST), name);
             }
             pass = declared.len() as i32;
         } else {
-            println!("{} testsuite", "[FAIL]".style(BOLD_RED));
+            println!("{} testsuite", "[FAIL]".style(ERROR_ST));
             fail = 1;
         }
     }
@@ -264,9 +257,9 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     s_println!(BOLD_GREEN, "  Testsuite summary  ");
     s_println!(BOLD_GREEN, "=====================");
     println!("TOTAL: {}", total);
-    print_field("PASS", pass, BOLD_GREEN);
-    print_field("SKIP", skip, BOLD_BLUE);
-    print_field("FAIL", fail, BOLD_RED);
+    print_field("PASS", pass, SUCCESS_ST);
+    print_field("SKIP", skip, SKIP_ST);
+    print_field("FAIL", fail, ERROR_ST);
     s_println!(BOLD_GREEN, "=====================");
     s_println!(BOLD_GREEN, "=====================");
 
@@ -409,6 +402,6 @@ fn print_field(label: &str, value: i32, style: Style) {
     if value == 0 {
         println!("{}:  {}", label, value);
     } else {
-        println!("{}", format!("{}:  {}", label, value).style(style));
+        s_println!(style, "{}:  {}", label, value);
     }
 }

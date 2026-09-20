@@ -21,12 +21,7 @@ use crate::core::build::common;
 use crate::core::build_config::Config;
 use crate::utils::build::{get_bool_with_profile, get_list_with_profile};
 use crate::utils::cli_styles::{
-    BOLD_CYAN,
-    BOLD_GREEN,
-    BOLD_YELLOW,
-    OwoColorize,
-    // colored,
-    s_println,
+    ALERT_ST, BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println,
 };
 use crate::utils::fs::find_project_root;
 use std::path::{Path, PathBuf};
@@ -168,13 +163,13 @@ pub fn lint(args: &[String]) -> i32 {
         if issue_count > 0 {
             total_issues += issue_count as u32;
             failed += 1;
-            print!("  {} ", "×".style(BOLD_YELLOW));
+            print!("  {} ", "×".style(ALERT_ST));
             println!("{} ({} issues)", file, issue_count);
             for issue in &issues {
                 println!("    {}", issue);
             }
         } else {
-            print!("  {} ", "✓".style(BOLD_GREEN));
+            print!("  {} ", "✓".style(SUCCESS_ST));
             println!("{}", file);
         }
     }
@@ -185,13 +180,13 @@ pub fn lint(args: &[String]) -> i32 {
     if failed == 0 {
         println!(
             "    {} {} files, no issues",
-            "Lint".style(BOLD_GREEN),
+            "Lint".style(SUCCESS_ST),
             total
         );
     } else {
         println!(
             "    {} {}/{} files passed, {} issues found",
-            "Lint".style(BOLD_YELLOW),
+            "Lint".style(ALERT_ST),
             passed,
             total,
             total_issues

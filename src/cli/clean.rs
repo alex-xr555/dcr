@@ -20,12 +20,7 @@ use crate::prelude::*;
 use crate::core::build_config::Config;
 use crate::core::workspace::parse_workspace;
 use crate::utils::build::{default_profile_flags, default_target_triple, parse_version_info};
-use crate::utils::cli_styles::{
-    BOLD_CYAN,
-    BOLD_GREEN,
-    // colored,
-    s_println,
-};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, SUCCESS_ST, s_println};
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use glob::glob;
 use owo_colors::OwoColorize;
@@ -242,7 +237,7 @@ fn clean_project_at(
                 let _ = fs::remove_dir_all(&target_dir);
                 println!(
                     "{} Removed directory {}",
-                    "\n    ✔".style(BOLD_GREEN),
+                    "\n    ✔".style(SUCCESS_ST),
                     target_dir
                 );
             }
@@ -252,7 +247,7 @@ fn clean_project_at(
 
         if items.contains(&"target".to_string()) {
             let _ = fs::remove_dir_all("target");
-            println!("{} Removed directory target", "\n    ✔".style(BOLD_GREEN));
+            println!("{} Removed directory target", "\n    ✔".style(SUCCESS_ST));
         } else {
             warn!("Directory target not found");
         }

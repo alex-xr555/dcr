@@ -20,13 +20,7 @@ use crate::prelude::*;
 use crate::config::FILE_MAIN_C;
 use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
-use crate::utils::cli_styles::{
-    BOLD_CYAN,
-    BOLD_GREEN,
-    OwoColorize,
-    // colored,
-    s_println,
-};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println};
 use crate::utils::fs::check_dir;
 use std::fs;
 use std::io::Write;
@@ -102,7 +96,7 @@ pub fn init(args: &[String]) -> i32 {
     }
     println!(
         "    {} Created file {}",
-        "✔".style(BOLD_GREEN),
+        "✔".style(SUCCESS_ST),
         "dcr.toml".style(BOLD_CYAN)
     );
 
@@ -124,7 +118,7 @@ pub fn init(args: &[String]) -> i32 {
     }
     println!(
         "    {} Created file {}",
-        "✔".style(BOLD_GREEN),
+        "✔".style(SUCCESS_ST),
         "src/main.c".style(BOLD_CYAN)
     );
 
@@ -150,7 +144,7 @@ pub fn init(args: &[String]) -> i32 {
             if let Err(e) = crate::core::vcs::init_vcs(vcs_kind, project_path) {
                 warn!("Failed to initialize git repository: {e}");
             } else {
-                println!("    {} Initialized git repository", "✔".style(BOLD_GREEN));
+                println!("    {} Initialized git repository", "✔".style(SUCCESS_ST));
             }
         } else {
             warn!(
@@ -165,7 +159,7 @@ pub fn init(args: &[String]) -> i32 {
 
     println!(
         "Project `{}` successfully created\n",
-        project_name.style(BOLD_GREEN)
+        project_name.style(SUCCESS_ST)
     );
     s_println!(BOLD_GREEN, "Next step:");
     s_println!(BOLD_CYAN, "    dcr run");

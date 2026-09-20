@@ -17,7 +17,7 @@
 
 use crate::prelude::*;
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println};
 use glob::glob;
 use std::process::Command;
 
@@ -85,7 +85,7 @@ pub fn fmt(args: &[String]) -> i32 {
 
     match status {
         Ok(s) if s.success() => {
-            println!("    {} successful", "Format".style(BOLD_GREEN));
+            println!("    {} successful", "Format".style(SUCCESS_ST));
             0
         }
         Ok(s) => {

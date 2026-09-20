@@ -29,12 +29,7 @@ use crate::utils::build::{
     normalize_kind, resolve_artifact_target_dir, resolve_compiler,
 };
 use crate::utils::cli_styles::{
-    BOLD_CYAN,
-    BOLD_GREEN,
-    BOLD_YELLOW,
-    OwoColorize,
-    // colored,
-    s_println,
+    BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, OwoColorize, SUCCESS_ST, s_println,
 };
 use crate::utils::fs::{canonicalize_path, find_project_root};
 use std::io::IsTerminal;
@@ -104,12 +99,12 @@ impl BuildReporter for CliReporter {
                 common::finish_progress_line();
                 // Only announce deps that were actually rebuilt this run.
                 if rebuilt {
-                    self.line("ready", BOLD_GREEN, &format!("{name} v{version}"));
+                    self.line("ready", SUCCESS_ST, &format!("{name} v{version}"));
                 }
             }
             BuildEvent::Compiling { name, version } => {
                 common::finish_progress_line();
-                let label = format!("  {} {} v{}", status("compile", BOLD_GREEN), name, version);
+                let label = format!("  {} {} v{}", status("compile", SUCCESS_ST), name, version);
                 // Terminals use an in-place progress line; non-TTY gets a plain log line.
                 common::set_progress_label(Some(label.clone()));
                 if !std::io::stderr().is_terminal() {
@@ -122,7 +117,7 @@ impl BuildReporter for CliReporter {
             }
             BuildEvent::Finished { secs } => {
                 common::finish_progress_line();
-                self.line("done", BOLD_GREEN, &format!("in {secs}s"));
+                self.line("done", SUCCESS_ST, &format!("in {secs}s"));
             }
             BuildEvent::CompilerOutput { stream, text } => {
                 // Pause the progress spinner so compiler text is not overwritten.
