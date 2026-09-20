@@ -23,8 +23,7 @@ use crate::utils::build::{default_profile_flags, default_target_triple, parse_ve
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use glob::glob;
-use std::fs;
-use std::path::Path;
+use std::{fs, path::Path};
 
 /// Entry point for the `dcr clean` command.
 ///
