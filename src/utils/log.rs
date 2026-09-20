@@ -43,7 +43,7 @@ pub fn init() {
         .init();
 }
 
-/// Prints `msg` to stdout with the given `style`.
+/// Prints message to stdout with the given `Style`. Copy of println! macro
 #[allow(unused_macros)]
 macro_rules! sprintln {
     ($style:expr, $($arg:tt)*) => {
@@ -54,7 +54,7 @@ macro_rules! sprintln {
     };
 }
 
-/// Prints `msg` to stdout with the given `style`.
+/// Prints message to stdout with the given `Style`. Copy of print! macro
 #[allow(unused_macros)]
 macro_rules! sprint {
     ($style:expr, $($arg:tt)*) => {
