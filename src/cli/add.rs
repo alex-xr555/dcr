@@ -17,12 +17,10 @@
 
 use crate::prelude::*;
 
-use crate::core::build_config::Config;
-use crate::core::deps::register;
+use crate::core::{build_config::Config, deps::register};
 use crate::utils::fs::find_project_root;
 use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
-use toml::Value;
-use toml::map::Map;
+use toml::{Value, map::Map};
 
 /// Parsed arguments for the `dcr add` command.
 ///
