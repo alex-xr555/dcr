@@ -26,7 +26,7 @@ use crate::utils::build::{
 };
 use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, ERROR_ST, SKIP_ST, SUCCESS_ST};
 use crate::utils::fs::{find_project_root, with_dir};
-use crate::utils::log::s_println;
+use crate::utils::log::sprintln;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -39,16 +39,16 @@ pub fn test(args: &[String]) -> i32 {
     let mut profile = "debug";
     for arg in args {
         if arg == "--help" {
-            s_println!(BOLD_GREEN, "USAGE:");
-            s_println!(BOLD_CYAN, "    dcr test [--init] [--debug | --release]");
+            sprintln!(BOLD_GREEN, "USAGE:");
+            sprintln!(BOLD_CYAN, "    dcr test [--init] [--debug | --release]");
             println!();
-            s_println!(BOLD_GREEN, "ALIASES:");
+            sprintln!(BOLD_GREEN, "ALIASES:");
             println!("    dcr tests");
             println!();
-            s_println!(BOLD_GREEN, "DESCRIPTION:");
+            sprintln!(BOLD_GREEN, "DESCRIPTION:");
             println!("    Runs project tests and prints a unified testsuite report.");
             println!();
-            s_println!(BOLD_GREEN, "OPTIONS:");
+            sprintln!(BOLD_GREEN, "OPTIONS:");
             println!("    --init            Create tests/dcr_test.h in current project");
             println!("    --debug           Build and run tests with debug profile (default)");
             println!("    --release         Build and run tests with release profile");
@@ -254,15 +254,15 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     };
 
     println!();
-    s_println!(BOLD_GREEN, "=====================");
-    s_println!(BOLD_GREEN, "  Testsuite summary  ");
-    s_println!(BOLD_GREEN, "=====================");
+    sprintln!(BOLD_GREEN, "=====================");
+    sprintln!(BOLD_GREEN, "  Testsuite summary  ");
+    sprintln!(BOLD_GREEN, "=====================");
     println!("TOTAL: {}", total);
     print_field("PASS", pass, SUCCESS_ST);
     print_field("SKIP", skip, SKIP_ST);
     print_field("FAIL", fail, ERROR_ST);
-    s_println!(BOLD_GREEN, "=====================");
-    s_println!(BOLD_GREEN, "=====================");
+    sprintln!(BOLD_GREEN, "=====================");
+    sprintln!(BOLD_GREEN, "=====================");
 
     if fail > 0 || !suite_success {
         return Ok(1);
@@ -403,6 +403,6 @@ fn print_field(label: &str, value: i32, style: Style) {
     if value == 0 {
         println!("{}:  {}", label, value);
     } else {
-        s_println!(style, "{}:  {}", label, value);
+        sprintln!(style, "{}:  {}", label, value);
     }
 }

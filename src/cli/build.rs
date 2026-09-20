@@ -30,7 +30,7 @@ use crate::utils::build::{
 };
 use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, OwoColorize, SUCCESS_ST};
 use crate::utils::fs::{canonicalize_path, find_project_root};
-use crate::utils::log::s_println;
+use crate::utils::log::sprintln;
 use std::io::IsTerminal;
 use std::path::Path;
 use std::sync::{Arc, atomic::AtomicBool};
@@ -144,16 +144,16 @@ impl BuildReporter for CliReporter {
 /// Process exit code: `0` on success or help, non-zero on failure.
 pub fn build(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        s_println!(BOLD_GREEN, "USAGE:");
-        s_println!(
+        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(
             BOLD_CYAN,
             "    dcr build [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [--print-artifact-path]"
         );
         println!();
-        s_println!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Compiles the project. Default profile is --debug.");
         println!();
-        s_println!(BOLD_GREEN, "OPTIONS:");
+        sprintln!(BOLD_GREEN, "OPTIONS:");
         println!("    --debug              Build with debug profile (default)");
         println!("    --release            Build with release profile");
         println!("    --target <triple>    Cross-compile for the given target");

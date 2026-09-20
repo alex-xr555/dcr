@@ -22,7 +22,7 @@ use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
 use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
 use crate::utils::fs::check_dir;
-use crate::utils::log::s_println;
+use crate::utils::log::sprintln;
 use std::fs;
 use std::io::Write;
 
@@ -32,10 +32,10 @@ use std::io::Write;
 /// template source file generation (`src/main.c`), and initial VCS setup.
 pub fn new(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        s_println!(BOLD_GREEN, "USAGE:");
-        s_println!(BOLD_CYAN, "    dcr new <name> [--vcs <git|none>]");
+        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(BOLD_CYAN, "    dcr new <name> [--vcs <git|none>]");
         println!();
-        s_println!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Creates a new C/C++ project with the given name.");
         println!("    The name may only contain ASCII letters, digits, '_' and '-'.");
         return 0;
@@ -87,7 +87,7 @@ pub fn new(args: &[String]) -> i32 {
             "Directory `{}` already exists\n",
             project_name.style(BOLD_CYAN)
         );
-        s_println!(BOLD_CYAN, "Hint:");
+        sprintln!(BOLD_CYAN, "Hint:");
         println!(
             "    Use `{}` to initialize an existing project\n    or specify a different project name",
             "dcr init".style(BOLD_CYAN)
@@ -181,7 +181,7 @@ pub fn new(args: &[String]) -> i32 {
         "Project `{}` successfully created\n",
         project_name.style(SUCCESS_ST)
     );
-    s_println!(BOLD_GREEN, "Next step:");
-    s_println!(BOLD_CYAN, "    cd {}\n    dcr run", project_name);
+    sprintln!(BOLD_GREEN, "Next step:");
+    sprintln!(BOLD_CYAN, "    cd {}\n    dcr run", project_name);
     0
 }

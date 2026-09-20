@@ -45,7 +45,7 @@ pub fn init() {
 
 /// Prints `msg` to stdout with the given `style`.
 #[allow(unused_macros)]
-macro_rules! s_println {
+macro_rules! sprintln {
     ($style:expr, $($arg:tt)*) => {
         {
             use ::owo_colors::OwoColorize as _;
@@ -56,7 +56,7 @@ macro_rules! s_println {
 
 /// Prints `msg` to stdout with the given `style`.
 #[allow(unused_macros)]
-macro_rules! s_print {
+macro_rules! sprint {
     ($style:expr, $($arg:tt)*) => {
         {
             use ::owo_colors::OwoColorize as _;
@@ -66,4 +66,4 @@ macro_rules! s_print {
 }
 
 #[allow(unused_imports)]
-pub(crate) use {s_print, s_println};
+pub(crate) use {sprint, sprintln};

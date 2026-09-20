@@ -18,7 +18,7 @@
 use crate::prelude::*;
 
 use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
-use crate::utils::log::s_println;
+use crate::utils::log::sprintln;
 use glob::glob;
 use std::process::Command;
 
@@ -30,10 +30,10 @@ use std::process::Command;
 /// If the first argument is `--help`, prints usage information and returns 0.
 pub fn fmt(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        s_println!(BOLD_GREEN, "USAGE:");
-        s_println!(BOLD_CYAN, "    dcr fmt");
+        sprintln!(BOLD_GREEN, "USAGE:");
+        sprintln!(BOLD_CYAN, "    dcr fmt");
         println!();
-        s_println!(BOLD_GREEN, "DESCRIPTION:");
+        sprintln!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Formats all C/C++ source files using clang-format.");
         println!("    Scans src/ and tests/ directories recursively.");
         return 0;

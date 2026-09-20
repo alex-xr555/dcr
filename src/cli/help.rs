@@ -16,7 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
-use crate::utils::log::s_println;
+use crate::utils::log::sprintln;
 
 /// Displays the help information for the DCR CLI tool.
 ///
@@ -28,10 +28,10 @@ pub fn help() -> i32 {
     println!("DCR (Dexoron Cargo Realization)");
     println!("C project manager inspired by Cargo.");
     println!();
-    s_println!(BOLD_GREEN, "USAGE:");
-    s_println!(BOLD_CYAN, "    dcr <command> [options]");
+    sprintln!(BOLD_GREEN, "USAGE:");
+    sprintln!(BOLD_CYAN, "    dcr <command> [options]");
     println!();
-    s_println!(BOLD_GREEN, "COMMANDS:");
+    sprintln!(BOLD_GREEN, "COMMANDS:");
     println!("    new <name>        Create a new project");
     println!("    init              Initialize the current directory as a project");
     println!("    build [--profile] Build the project (default: --debug)");
@@ -44,24 +44,24 @@ pub fn help() -> i32 {
     println!("    setup             Show configured package registries");
     println!("    clean             Remove the target directory");
     println!("    gen <subcommand>  Generate IDE integration files");
-    s_println!(BOLD_GREEN, "FLAGS:");
+    sprintln!(BOLD_GREEN, "FLAGS:");
     println!("    --help            Show command help");
     println!("    --update          Update dcr to the latest version");
     println!("    --version         Show dcr version");
     println!();
-    s_println!(BOLD_GREEN, "OPTIONS:");
+    sprintln!(BOLD_GREEN, "OPTIONS:");
     println!("    --debug           Use debug profile");
     println!("    --release         Use release profile");
     println!("    --force           Force rebuild (build/run)");
     println!("    --clean           Clean before build (build/run)");
     println!("    --all             Clean all workspace members (clean)");
     println!();
-    s_println!(BOLD_GREEN, "EXAMPLES:");
-    s_println!(BOLD_CYAN, "    dcr new hello");
-    s_println!(BOLD_CYAN, "    dcr build --release");
-    s_println!(BOLD_CYAN, "    dcr run --debug");
+    sprintln!(BOLD_GREEN, "EXAMPLES:");
+    sprintln!(BOLD_CYAN, "    dcr new hello");
+    sprintln!(BOLD_CYAN, "    dcr build --release");
+    sprintln!(BOLD_CYAN, "    dcr run --debug");
     println!();
-    s_println!(BOLD_GREEN, "TIP:");
+    sprintln!(BOLD_GREEN, "TIP:");
     println!("    Run 'dcr <command> --help' for command-specific help.");
     0
 }
