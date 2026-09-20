@@ -19,8 +19,9 @@ use crate::prelude::*;
 
 use crate::core::build_config::Config;
 use crate::core::deps::register;
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
 use crate::utils::fs::find_project_root;
+use crate::utils::log::s_println;
 use toml::Value;
 use toml::map::Map;
 

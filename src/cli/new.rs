@@ -20,8 +20,9 @@ use crate::prelude::*;
 use crate::config::FILE_MAIN_C;
 use crate::core::build_config::{Config, validate_package_name};
 use crate::core::vcs::VcsKind;
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
 use crate::utils::fs::check_dir;
+use crate::utils::log::s_println;
 use std::fs;
 use std::io::Write;
 

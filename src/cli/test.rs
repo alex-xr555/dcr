@@ -24,8 +24,9 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile, get_list_with_profile,
     get_string_with_profile, resolve_compiler, resolve_pkg_config_flags,
 };
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, ERROR_ST, SKIP_ST, SUCCESS_ST, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, ERROR_ST, SKIP_ST, SUCCESS_ST};
 use crate::utils::fs::{find_project_root, with_dir};
+use crate::utils::log::s_println;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;

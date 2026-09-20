@@ -20,10 +20,9 @@ use crate::prelude::*;
 use crate::core::build::common;
 use crate::core::build_config::Config;
 use crate::utils::build::{get_bool_with_profile, get_list_with_profile};
-use crate::utils::cli_styles::{
-    ALERT_ST, BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println,
-};
+use crate::utils::cli_styles::{ALERT_ST, BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
 use crate::utils::fs::find_project_root;
+use crate::utils::log::s_println;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 

@@ -28,10 +28,11 @@ use crate::utils::build::{
     get_list_with_profile, get_string_with_profile, normalize_kind, normalize_platform,
     resolve_artifact_target_dir, resolve_compiler, resolve_pkg_config_flags_lossy,
 };
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
 use crate::utils::fs::{
     absolute_join, atomic_write, canonicalize_path, ensure_dcr_dir, find_project_root,
 };
+use crate::utils::log::s_println;
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 

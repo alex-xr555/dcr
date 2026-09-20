@@ -15,7 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
+use crate::utils::log::s_println;
 
 /// Displays the help information for the DCR CLI tool.
 ///

@@ -17,7 +17,8 @@
 
 use crate::prelude::*;
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize, SUCCESS_ST};
+use crate::utils::log::s_println;
 use glob::glob;
 use std::process::Command;
 

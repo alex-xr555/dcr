@@ -37,31 +37,3 @@ pub const SUCCESS_ST: Style = BOLD_GREEN;
 pub const ALERT_ST: Style = BOLD_YELLOW;
 // #[allow(dead_code)]
 pub const SKIP_ST: Style = BOLD_BLUE;
-// #[allow(dead_code)]
-// pub const BOLD_CYAN: Style = Style::new().bright_cyan().bold();
-
-// перенести в log
-/// Prints `msg` to stdout with the given `style`.
-#[allow(unused_macros)]
-macro_rules! s_println {
-    ($style:expr, $($arg:tt)*) => {
-        {
-            use ::owo_colors::OwoColorize as _;
-            println!("{}", format!($($arg)*).style($style));
-        }
-    };
-}
-
-/// Prints `msg` to stdout with the given `style`.
-#[allow(unused_macros)]
-macro_rules! s_print {
-    ($style:expr, $($arg:tt)*) => {
-        {
-            use ::owo_colors::OwoColorize as _;
-            println!("{}", format!($($arg)*).style($style));
-        }
-    };
-}
-
-#[allow(unused_imports)]
-pub(crate) use {s_print, s_println};

@@ -17,7 +17,8 @@
 
 use crate::prelude::*;
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, s_println};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN};
+use crate::utils::log::s_println;
 use serde::Deserialize;
 use std::fs;
 use std::io::Read;

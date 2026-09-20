@@ -42,3 +42,28 @@ pub fn init() {
         })
         .init();
 }
+
+/// Prints `msg` to stdout with the given `style`.
+#[allow(unused_macros)]
+macro_rules! s_println {
+    ($style:expr, $($arg:tt)*) => {
+        {
+            use ::owo_colors::OwoColorize as _;
+            println!("{}", format!($($arg)*).style($style));
+        }
+    };
+}
+
+/// Prints `msg` to stdout with the given `style`.
+#[allow(unused_macros)]
+macro_rules! s_print {
+    ($style:expr, $($arg:tt)*) => {
+        {
+            use ::owo_colors::OwoColorize as _;
+            println!("{}", format!($($arg)*).style($style));
+        }
+    };
+}
+
+#[allow(unused_imports)]
+pub(crate) use {s_print, s_println};

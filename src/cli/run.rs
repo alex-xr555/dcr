@@ -22,15 +22,10 @@ use crate::cli::flags::parse_build_run_flags;
 use crate::core::build_config::Config;
 use crate::core::runner::run_binary;
 use crate::utils::build::{normalize_target_os, parse_version_info, substitute_vars};
-use crate::utils::cli_styles::{
-    BOLD_CYAN,
-    BOLD_GREEN,
-    OwoColorize,
-    // s_println, // colored,
-    s_println,
-};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, OwoColorize};
 use crate::utils::fs::find_project_root;
 use crate::utils::fs::with_dir;
+use crate::utils::log::s_println;
 use std::path::Path;
 use std::process::Command;
 
