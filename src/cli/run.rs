@@ -27,7 +27,7 @@ use crate::utils::cli_styles::{
     BOLD_GREEN,
     OwoColorize,
     // s_println, // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::find_project_root;
 use crate::utils::fs::with_dir;
@@ -74,17 +74,17 @@ fn get_run_cmd(
 /// Process exit code from the built binary / `run.cmd`, or non-zero on build/setup failure.
 pub fn run(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc(
-            "    dcr run [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [-- <args>...]",
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(
             BOLD_CYAN,
+            "    dcr run [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [-- <args>...]"
         );
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Builds and runs the project. Only available for kind = \"bin\".");
         println!("    Arguments after `--` are passed to the built binary (cargo-style).");
         println!();
-        printc("OPTIONS:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "OPTIONS:");
         println!("    --debug              Run with debug profile (default)");
         println!("    --release            Run with release profile");
         println!("    --target <triple>    Cross-compile for the given target");

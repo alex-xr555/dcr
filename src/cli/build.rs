@@ -34,7 +34,7 @@ use crate::utils::cli_styles::{
     BOLD_YELLOW,
     OwoColorize,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::{canonicalize_path, find_project_root};
 use std::io::IsTerminal;
@@ -150,16 +150,16 @@ impl BuildReporter for CliReporter {
 /// Process exit code: `0` on success or help, non-zero on failure.
 pub fn build(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc(
-            "    dcr build [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [--print-artifact-path]",
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(
             BOLD_CYAN,
+            "    dcr build [--debug | --release] [--target <triple>] [--force] [--clean] [--verbose] [--print-artifact-path]"
         );
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Compiles the project. Default profile is --debug.");
         println!();
-        printc("OPTIONS:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "OPTIONS:");
         println!("    --debug              Build with debug profile (default)");
         println!("    --release            Build with release profile");
         println!("    --target <triple>    Cross-compile for the given target");

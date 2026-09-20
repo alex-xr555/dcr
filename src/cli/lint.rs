@@ -26,7 +26,7 @@ use crate::utils::cli_styles::{
     BOLD_YELLOW,
     OwoColorize,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::find_project_root;
 use std::path::{Path, PathBuf};
@@ -37,14 +37,14 @@ use std::process::Command;
 /// Scans source roots (configurable via build.roots) and tests/ directory.
 pub fn lint(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc("    dcr lint [--fix]", BOLD_CYAN);
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(BOLD_CYAN, "    dcr lint [--fix]");
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Runs clang-tidy on all C/C++ source files.");
         println!("    Scans source roots (configurable via build.roots) and tests/ directory.");
         println!();
-        printc("OPTIONS:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "OPTIONS:");
         println!("    --fix    Apply clang-tidy suggestions automatically");
         return 0;
     }

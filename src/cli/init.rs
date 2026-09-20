@@ -25,7 +25,7 @@ use crate::utils::cli_styles::{
     BOLD_GREEN,
     OwoColorize,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::check_dir;
 use std::fs;
@@ -37,10 +37,10 @@ use std::io::Write;
 /// `dcr.toml` and `src/main.c`, and configures version control (Git) integration if applicable.
 pub fn init(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc("    dcr init [--vcs <git|none>]", BOLD_CYAN);
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(BOLD_CYAN, "    dcr init [--vcs <git|none>]");
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Initializes the current directory as a DCR project.");
         println!("    The directory must be empty.");
         return 0;
@@ -167,7 +167,7 @@ pub fn init(args: &[String]) -> i32 {
         "Project `{}` successfully created\n",
         project_name.style(BOLD_GREEN)
     );
-    printc("Next step:", BOLD_GREEN);
-    printc("    dcr run", BOLD_CYAN);
+    s_println!(BOLD_GREEN, "Next step:");
+    s_println!(BOLD_CYAN, "    dcr run");
     0
 }

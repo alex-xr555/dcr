@@ -17,7 +17,7 @@
 
 use crate::prelude::*;
 
-use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, s_println};
 use serde::Deserialize;
 use std::fs;
 use std::io::Read;
@@ -56,10 +56,10 @@ struct ReleaseAsset {
 /// `0` on success / already up to date / pacman-managed refuse; `1` on error.
 pub fn flag_update(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc("    dcr --update", BOLD_CYAN);
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(BOLD_CYAN, "    dcr --update");
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Updates DCR to the latest version from GitHub Releases.");
         return 0;
     }

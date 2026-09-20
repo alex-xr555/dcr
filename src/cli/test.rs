@@ -30,7 +30,7 @@ use crate::utils::cli_styles::{
     BOLD_GREEN,
     BOLD_RED,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::{find_project_root, with_dir};
 use std::fs;
@@ -45,16 +45,16 @@ pub fn test(args: &[String]) -> i32 {
     let mut profile = "debug";
     for arg in args {
         if arg == "--help" {
-            printc("USAGE:", BOLD_GREEN);
-            printc("    dcr test [--init] [--debug | --release]", BOLD_CYAN);
+            s_println!(BOLD_GREEN, "USAGE:");
+            s_println!(BOLD_CYAN, "    dcr test [--init] [--debug | --release]");
             println!();
-            printc("ALIASES:", BOLD_GREEN);
+            s_println!(BOLD_GREEN, "ALIASES:");
             println!("    dcr tests");
             println!();
-            printc("DESCRIPTION:", BOLD_GREEN);
+            s_println!(BOLD_GREEN, "DESCRIPTION:");
             println!("    Runs project tests and prints a unified testsuite report.");
             println!();
-            printc("OPTIONS:", BOLD_GREEN);
+            s_println!(BOLD_GREEN, "OPTIONS:");
             println!("    --init            Create tests/dcr_test.h in current project");
             println!("    --debug           Build and run tests with debug profile (default)");
             println!("    --release         Build and run tests with release profile");
@@ -260,15 +260,15 @@ fn run_testsuite(profile: &str) -> Result<i32, String> {
     };
 
     println!();
-    printc("=====================", BOLD_GREEN);
-    printc("  Testsuite summary  ", BOLD_GREEN);
-    printc("=====================", BOLD_GREEN);
+    s_println!(BOLD_GREEN, "=====================");
+    s_println!(BOLD_GREEN, "  Testsuite summary  ");
+    s_println!(BOLD_GREEN, "=====================");
     println!("TOTAL: {}", total);
     print_field("PASS", pass, BOLD_GREEN);
     print_field("SKIP", skip, BOLD_BLUE);
     print_field("FAIL", fail, BOLD_RED);
-    printc("=====================", BOLD_GREEN);
-    printc("=====================", BOLD_GREEN);
+    s_println!(BOLD_GREEN, "=====================");
+    s_println!(BOLD_GREEN, "=====================");
 
     if fail > 0 || !suite_success {
         return Ok(1);

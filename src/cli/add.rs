@@ -24,7 +24,7 @@ use crate::utils::cli_styles::{
     BOLD_GREEN,
     OwoColorize,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::find_project_root;
 use toml::Value;
@@ -66,16 +66,16 @@ pub struct AddArgs {
 /// Process exit code: `0` on success, non-zero on usage or I/O errors.
 pub fn add(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc(
-            "    dcr add <name> <source> [--branch <b>] [--tag <t>] [--rev <r>]",
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(
             BOLD_CYAN,
+            "    dcr add <name> <source> [--branch <b>] [--tag <t>] [--rev <r>]"
         );
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Adds a dependency to the project.");
         println!();
-        printc("SOURCES:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "SOURCES:");
         println!("    github:user/repo          GitHub repository");
         println!("    gitlab:user/repo          GitLab repository");
         println!("    git:host.com/user/repo    Generic git repository");
@@ -83,7 +83,7 @@ pub fn add(args: &[String]) -> i32 {
         println!("    pkg-config:fmt            System pkg-config dependency");
         println!("    <version>                 Version from registry");
         println!();
-        printc("OPTIONS:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "OPTIONS:");
         println!("    --branch <b>    Use a specific branch");
         println!("    --tag <t>       Use a specific tag");
         println!("    --rev <r>       Use a specific commit hash");

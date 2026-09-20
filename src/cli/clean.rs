@@ -24,7 +24,7 @@ use crate::utils::cli_styles::{
     BOLD_CYAN,
     BOLD_GREEN,
     // colored,
-    printc,
+    s_println,
 };
 use crate::utils::fs::{check_dir, find_project_root, with_dir};
 use glob::glob;
@@ -43,16 +43,16 @@ use std::path::Path;
 /// Process exit code: `0` on success, `1` on failure.
 pub fn clean(args: &[String]) -> i32 {
     if args.first().is_some_and(|a| a == "--help") {
-        printc("USAGE:", BOLD_GREEN);
-        printc(
-            "    dcr clean [--debug | --release] [--target <triple>] [--all]",
+        s_println!(BOLD_GREEN, "USAGE:");
+        s_println!(
             BOLD_CYAN,
+            "    dcr clean [--debug | --release] [--target <triple>] [--all]"
         );
         println!();
-        printc("DESCRIPTION:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "DESCRIPTION:");
         println!("    Removes build artifacts from the target directory.");
         println!();
-        printc("OPTIONS:", BOLD_GREEN);
+        s_println!(BOLD_GREEN, "OPTIONS:");
         println!("    --debug              Clean debug artifacts (default)");
         println!("    --release            Clean release artifacts");
         println!("    --target <triple>    Clean artifacts for a specific target");

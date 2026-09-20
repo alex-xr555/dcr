@@ -45,30 +45,29 @@ pub const BOLD_BLUE: Style = Style::new().bright_blue().bold();
 // }
 
 /// Prints `msg` to stdout with the given `style`.
-#[allow(dead_code)]
-pub fn printc(msg: &str, style: Style) {
-    println!("{}", msg.style(style));
+// #[macro_export]
+#[allow(unused_macros)]
+macro_rules! s_println {
+    ($style:expr, $($arg:tt)*) => {
+        {
+            use ::owo_colors::OwoColorize as _;
+            println!("{}", format!($($arg)*).style($style));
+        }
+    };
 }
 
+/// Prints `msg` to stdout with the given `style`.
 // #[macro_export]
-// macro_rules! s_println {
-//     ($style:expr, $($arg:tt)*) => {
-//         {
-//             use ::owo_colors::OwoColorize as _;
-//             println!("{}", format!($($arg)*).style($style));
-//         }
-//     };
-// }
+#[allow(unused_macros)]
+macro_rules! s_print {
+    ($style:expr, $($arg:tt)*) => {
+        {
+            use ::owo_colors::OwoColorize as _;
+            println!("{}", format!($($arg)*).style($style));
+        }
+    };
+}
 
-// #[macro_export]
-// macro_rules! s_print {
-//     ($style:expr, $($arg:tt)*) => {
-//         {
-//             use ::owo_colors::OwoColorize as _;
-//             println!("{}", format!($($arg)*).style($style));
-//         }
-//     };
-// }
-
-// // #[allow(dead_code)]
+#[allow(unused_imports)]
+pub(crate) use {s_print, s_println};
 // pub use crate::{s_print, s_println};
