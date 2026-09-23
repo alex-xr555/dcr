@@ -18,8 +18,8 @@
 use crate::prelude::*;
 
 use crate::core::{build_config::Config, deps::register};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use crate::utils::fs::find_project_root;
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use toml::{Value, map::Map};
 
 /// Parsed arguments for the `dcr add` command.

@@ -28,8 +28,8 @@ use crate::utils::build::{
     get_config_opt, get_config_str, get_language_with_profile_or_default, get_string_with_profile,
     normalize_kind, resolve_artifact_target_dir, resolve_compiler,
 };
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, colored, printc};
 use crate::utils::fs::{canonicalize_path, find_project_root};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, BOLD_YELLOW, colored, printc};
 use std::io::IsTerminal;
 use std::path::Path;
 use std::sync::{Arc, atomic::AtomicBool};

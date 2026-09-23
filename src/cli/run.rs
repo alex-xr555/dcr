@@ -23,7 +23,7 @@ use crate::core::build_config::Config;
 use crate::core::runner::run_binary;
 use crate::utils::build::{normalize_target_os, parse_version_info, substitute_vars};
 use crate::utils::fs::{find_project_root, with_dir};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use std::{path::Path, process::Command};
 
 /// Retrieves the run command from the config, preferring target-specific,

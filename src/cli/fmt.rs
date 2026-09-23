@@ -17,7 +17,7 @@
 
 use crate::prelude::*;
 
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, colored, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, colored, printc};
 use glob::glob;
 use std::process::Command;
 

@@ -25,7 +25,7 @@ use crate::utils::build::{
     get_string_with_profile, resolve_compiler, resolve_pkg_config_flags,
 };
 use crate::utils::fs::{find_project_root, with_dir};
-use crate::utils::text::{BOLD_CYAN, BOLD_GREEN, BOLD_RED, RESET, colored, printc};
+use crate::utils::cli_styles::{BOLD_CYAN, BOLD_GREEN, BOLD_RED, RESET, colored, printc};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
